@@ -6,11 +6,20 @@
   },
   "plugins": ["@typescript-eslint"],
   // HERE
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
 
   "rules": {
+    // to enforce following these rules or these rules will throw an error
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/consistent-type-definitions": ["error", "type"]
+    // "no-console": "error",
+    // "no-undef": "error",
+    // "no-unused-expressions": "error",
+    // "no-unreachable": "error"
   },
 
   "env": {
