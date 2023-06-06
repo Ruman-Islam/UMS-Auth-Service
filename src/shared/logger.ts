@@ -1,24 +1,28 @@
-import { createLogger, format, transports } from 'winston'
-import DailyRotateFile from 'winston-daily-rotate-file'
-const { combine, timestamp, label, printf, prettyPrint } = format
-import path from 'path'
-import process from 'process'
+import { createLogger, format, transports } from 'winston';
+import DailyRotateFile from 'winston-daily-rotate-file';
+import path from 'path';
+import process from 'process';
 
+// Destructure required formats from the 'format' module
+const { combine, timestamp, label, printf /* prettyPrint */ } = format;
+
+// Custom log message format
 const myFormat = printf(({ level, message, label, timestamp }) => {
-  const date = new Date(timestamp)
-  return `${date.toDateString()} [${label}] ${level}: ${message}`
-})
+  const date = new Date(timestamp);
+  return `${date.toDateString()} [${label}] ${level}: ${message}`;
+});
 
+// Create the main logger instance
 const logger = createLogger({
-  level: 'info',
+  level: 'info', // Set the log level to 'info'
   format: combine(
-    label({ label: 'UMS' }),
-    timestamp(),
-    myFormat,
-    prettyPrint()
+    label({ label: 'UMS' }), // Add a label 'UMS' to the logs
+    timestamp(), // Add a timestamp to the logs
+    myFormat // Apply the custom log message format
+    // prettyPrint() // Enable pretty printing of log objects
   ),
   transports: [
-    new transports.Console(),
+    new transports.Console(), // Output logs to the console
     new DailyRotateFile({
       filename: path.join(
         process.cwd(),
@@ -26,20 +30,26 @@ const logger = createLogger({
         'winston',
         'success',
         'UMS-%DATE%-success.log'
-      ),
-      datePattern: 'YYYY-DD-MM-HH',
-      zippedArchive: true,
-      maxSize: '20m',
-      maxFiles: '14d',
+      ), // Set the log file path
+      datePattern: 'YYYY-DD-MM-HH', // Use the specified date pattern for log rotation
+      zippedArchive: true, // Enable log file archiving
+      maxSize: '20m', // Set the maximum size for a log file
+      maxFiles: '14d', // Set the maximum number of log files to retain
     }),
   ],
-})
+});
 
+// Create the error logger instance
 const errorLogger = createLogger({
-  level: 'error',
-  format: combine(label({ label: 'UMS' }), timestamp(), myFormat),
+  level: 'error', // Set the log level to 'error'
+  format: combine(
+    label({ label: 'UMS' }), // Add a label 'UMS' to the logs
+    timestamp(), // Add a timestamp to the logs
+    myFormat // Apply the same format as the main logger
+    // prettyPrint() // Enable pretty printing of log objects
+  ),
   transports: [
-    new transports.Console(),
+    new transports.Console(), // Output logs to the console
     new DailyRotateFile({
       filename: path.join(
         process.cwd(),
@@ -47,13 +57,13 @@ const errorLogger = createLogger({
         'winston',
         'error',
         'UMS-%DATE%-error.log'
-      ),
-      datePattern: 'YYYY-DD-MM-HH',
-      zippedArchive: true,
-      maxSize: '20m',
-      maxFiles: '14d',
+      ), // Set the log file path for error logs
+      datePattern: 'YYYY-DD-MM-HH', // Use the specified date pattern for log rotation
+      zippedArchive: true, // Enable log file archiving
+      maxSize: '20m', // Set the maximum size for a log file
+      maxFiles: '14d', // Set the maximum number of log files to retain
     }),
   ],
-})
+});
 
-export { logger, errorLogger }
+export { logger, errorLogger };
