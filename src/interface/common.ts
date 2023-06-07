@@ -1,7 +1,7 @@
 import { IGenericErrorMessage } from './error';
 
 /**
- * Represents a generic error response object.
+ * Represents a generic error response type.
  */
 export type IGenericErrorResponse = {
   statusCode: number; // The HTTP status code associated with the error response.

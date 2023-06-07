@@ -3,9 +3,21 @@ import { IGenericErrorResponse } from '../interface/common';
 import { IGenericErrorMessage } from '../interface/error';
 
 /**
- * Reshapes the Zod error into a generic error response.
+ * Reshaping the validation error from Zod into a generic error response.
  * @param error The Zod error.
  * @returns The generic error response with status code, message, and error messages.
+ {
+  statusCode = statusCode;
+  message = message;
+  errorMessages = message
+    ? [
+        {
+          path: '',
+          message: error?.message,
+        },
+      ]
+    : []
+  };
  */
 const handleZodError = (error: ZodError): IGenericErrorResponse => {
   // Extract the error messages from the Zod error

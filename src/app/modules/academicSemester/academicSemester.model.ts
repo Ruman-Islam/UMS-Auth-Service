@@ -10,32 +10,44 @@ import {
 } from './academicSemester.constant';
 import ApiError from '../../../errors/ApiError';
 
-// Define the Mongoose schema for academic semesters
+// Defining the Mongoose schema for academic semesters
 const academicSemesterSchema = new Schema<IAcademicSemester>(
   {
     title: {
       type: String,
-      required: true,
-      enum: academicSemesterTitles, // Allow only the predefined academic semester titles,
+      required: [true, 'Semester title is missing!'],
+      enum: {
+        values: academicSemesterTitles,
+        message: '{VALUE} is not matched',
+      }, // Allow only the predefined academic semester titles,
     },
     year: {
       type: Number,
-      required: true,
+      required: [true, 'Semester year is missing!'],
     },
     code: {
       type: String,
-      required: true,
-      enum: academicSemesterCodes, // Allow only the predefined academic semester codes,
+      required: [true, 'Semester code is missing!'],
+      enum: {
+        values: academicSemesterCodes,
+        message: '{VALUE} does not match!',
+      }, // Allow only the predefined academic semester codes,
     },
     startMonth: {
       type: String,
-      required: true,
-      enum: academicSemesterMonths, // Allow only the predefined academic semester months,
+      required: [true, 'Starting month is missing!'],
+      enum: {
+        values: academicSemesterMonths,
+        message: '{VALUE} does not match!',
+      }, // Allow only the predefined academic semester months,
     },
     endMonth: {
       type: String,
-      required: true,
-      enum: academicSemesterMonths, // Allow only the predefined academic semester months,
+      required: [true, 'Ending month is missing!'],
+      enum: {
+        values: academicSemesterMonths,
+        message: '{VALUE} does not match!',
+      }, // Allow only the predefined academic semester months,
     },
   },
   { timestamps: true }

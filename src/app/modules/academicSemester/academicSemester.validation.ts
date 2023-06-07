@@ -7,7 +7,7 @@ import {
 
 // ZOD is an extra layer of validation
 
-// Define the Zod schema for validating the request body when creating an academic semester
+// Defining the Zod schema for validating the request's body object when creating an academic semester
 const createAcademicSemesterValidationZodSchema = z.object({
   body: z.object({
     title: z.enum([...academicSemesterTitles] as [string, ...string[]], {

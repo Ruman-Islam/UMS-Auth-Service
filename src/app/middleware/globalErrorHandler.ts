@@ -10,7 +10,7 @@ import { ZodError } from 'zod';
 import handleZodError from '../../errors/handleZodError';
 
 const globalErrorHandler: ErrorRequestHandler = (
-  error, // All the error comes through "error"
+  error, // <= All the error comes through  this error
   req: Request,
   res: Response,
   next: NextFunction
@@ -19,12 +19,12 @@ const globalErrorHandler: ErrorRequestHandler = (
    While "development" mode here it will print the error. And while "production" mode it will store the error log and also it'll print the error because in the "errorLogger" function instructions are given to print on console. 
    */
   config.env === 'development'
-    ? console.log(`❌ globalErrorHandler ~`, error)
+    ? console.log(`❌👮‍♀️ globalErrorHandler ~`, error)
     : errorLogger.error(`❌❌ globalErrorHandler ~`, error);
   // ..................
 
   /**
-   A generic error response must holds status code, error message and error messages. 
+   A generic error response must holds initial status code, error message and error messages by default. 
    This portions will be changed based on the error type dynamically
    */
   let statusCode = 500;
@@ -35,7 +35,7 @@ const globalErrorHandler: ErrorRequestHandler = (
   // When mongoose schema validation error caught
   if (error?.name === 'ValidationError') {
     /**
-     "handleValidation" helps to reshape the mongoose's error into generic error response. Because mongoose error's are different. It returns status code, message and error messages.
+     "handleValidation" helps to reshape the mongoose's error into generic an error response format. Because different technologies error's are different different. It returns status code, message and error messages in a format which.
      */
     const simplifiedError = handleValidationError(error);
     statusCode = simplifiedError?.statusCode;
@@ -44,7 +44,7 @@ const globalErrorHandler: ErrorRequestHandler = (
     // ..................
   } else if (error instanceof ZodError) {
     /**
-     "handleZodError" helps to reshape the Zod's error into generic error response. Because Zod error's are different. It returns status code, message and error messages.
+     "handleZodError" helps to reshape the Zod error into an generic error response format. Because different technologies error's are different different. It returns status code, message and error messages.
      */
     const simplifiedError = handleZodError(error);
     statusCode = simplifiedError?.statusCode;
@@ -53,7 +53,7 @@ const globalErrorHandler: ErrorRequestHandler = (
     // ..................
   } else if (error instanceof ApiError) {
     /**
-     When error occurred from any api: service. Services will send error through custom-maid "ApiError". And here reshape the error to show as generic response
+     When error occurred from any api: service. Services will send error through custom-maid "ApiError". And here reshaping the error to show as generic response
      */
     statusCode = error?.statusCode;
     message = error?.message;

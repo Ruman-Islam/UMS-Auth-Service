@@ -5,7 +5,7 @@ import sendResponse from '../../../shared/sendResponse';
 import { IAcademicSemester } from './academicSemester.interface';
 
 /**
-createSemester is a request handler function that creates a new academic semester.
+createSemester is a request handler function that handles to creates a new academic semester using service.
 It extracts the academic semester data from the request body.
 It calls the academicSemesterService.createSemester function to create the semester using the extracted data.
 If the creation is successful, it sends a response with a success status and the created semester data.

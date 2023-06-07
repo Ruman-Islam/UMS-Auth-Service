@@ -3,12 +3,25 @@ import { IGenericErrorMessage } from '../interface/error';
 import { IGenericErrorResponse } from '../interface/common';
 
 /**
- * Reshapes the validation error from Mongoose into a generic error response.
+ * Reshaping the validation error from Mongoose into a generic error response.
  * @param error The Mongoose validation error.
  * @returns The generic error response with status code, message, and error messages.
+ * @The_shape will be like:
+ {
+  statusCode = statusCode;
+  message = message;
+  errorMessages = message
+    ? [
+        {
+          path: '',
+          message: error?.message,
+        },
+      ]
+    : []
+  };
  */
 const handleValidationError = (
-  error: mongoose.Error.ValidationError
+  error: mongoose.Error.ValidationError // Mongoose validation has it's own type
 ): IGenericErrorResponse => {
   // Extract the error messages from the validation error
   const errors: IGenericErrorMessage[] = Object.values(error.errors).map(
