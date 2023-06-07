@@ -15,7 +15,7 @@ const academicSemesterSchema = new Schema<IAcademicSemester>(
   {
     title: {
       type: String,
-      required: [true, 'Semester title is missing!'],
+      required: [true, 'semester title is missing!'],
       enum: {
         values: academicSemesterTitles,
         message: '{VALUE} is not matched',
@@ -23,11 +23,11 @@ const academicSemesterSchema = new Schema<IAcademicSemester>(
     },
     year: {
       type: Number,
-      required: [true, 'Semester year is missing!'],
+      required: [true, 'semester year is missing!'],
     },
     code: {
       type: String,
-      required: [true, 'Semester code is missing!'],
+      required: [true, 'semester code is missing!'],
       enum: {
         values: academicSemesterCodes,
         message: '{VALUE} does not match!',
@@ -35,7 +35,7 @@ const academicSemesterSchema = new Schema<IAcademicSemester>(
     },
     startMonth: {
       type: String,
-      required: [true, 'Starting month is missing!'],
+      required: [true, 'starting month is missing!'],
       enum: {
         values: academicSemesterMonths,
         message: '{VALUE} does not match!',
@@ -43,7 +43,7 @@ const academicSemesterSchema = new Schema<IAcademicSemester>(
     },
     endMonth: {
       type: String,
-      required: [true, 'Ending month is missing!'],
+      required: [true, 'ending month is missing!'],
       enum: {
         values: academicSemesterMonths,
         message: '{VALUE} does not match!',

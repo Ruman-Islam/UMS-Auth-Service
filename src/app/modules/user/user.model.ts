@@ -6,16 +6,16 @@ const userSchema = new Schema<IUser>(
   {
     id: {
       type: String,
-      required: true,
+      required: [true, 'id is missing!'],
       unique: true,
     },
     role: {
       type: String,
-      required: true,
+      required: [true, 'role is missing!'],
     },
     password: {
       type: String,
-      required: true,
+      required: [true, 'password is missing!'],
     },
   },
   { timestamps: true }

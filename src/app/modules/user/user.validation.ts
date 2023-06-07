@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 // ZOD is an extra layer of validation
 
-// Define a Zod schema for validating user creation request data
+// Defining a Zod schema for validating user creation request data
 const createUserZodSchema = z.object({
   body: z.object({
     role: z.string({

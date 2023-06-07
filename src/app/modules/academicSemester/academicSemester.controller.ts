@@ -21,6 +21,7 @@ const createSemester: RequestHandler = catchAsync(async (req, res, next) => {
     academicSemesterData
   );
 
+  // Dynamic response sender generic function to ensure response format
   sendResponse<IAcademicSemester>(res, {
     statusCode: 200,
     success: true,

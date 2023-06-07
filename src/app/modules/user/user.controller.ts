@@ -14,6 +14,7 @@ const createUser: RequestHandler = catchAsync(async (req, res, next) => {
   const { user } = req.body; // Extract the user data from the request body
   const result = await UserService.createUser(user); // Call the UserService to create the user
 
+  // Dynamic response sender generic function to ensure response format
   sendResponse<IUser>(res, {
     statusCode: 200,
     success: true,

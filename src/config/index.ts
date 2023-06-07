@@ -4,7 +4,7 @@ import path from 'path';
 // Load environment variables from the .env file
 dotenv.config({ path: path.join(process.cwd(), '.env') });
 
-// Define the configuration object
+// Defining the configuration object
 const config = {
   env: process.env.NODE_ENV, // Environment mode (development, production, etc.)
   port: process.env.PORT, // Port number for the server
