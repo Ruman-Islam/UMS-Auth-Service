@@ -1,80 +1,120 @@
 {
-  "keep": {
-    "days": true,
-    "amount": 14
-  },
-  "auditLog": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\.d8d06719ecd3a40ec3c553db019dae0bd59b85e2-audit.json",
-  "files": [
-    {
-      "date": 1686034660988,
-      "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-06-06-12-error.log",
-      "hash": "7d0f033ac8f4c96c5ef32c32647b87e598cdc4e9495ec60914d74701e214b762"
+    "keep": {
+        "days": true,
+        "amount": 14
     },
-    {
-      "date": 1686048774704,
-      "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-06-06-16-error.log",
-      "hash": "26fc392d3af08390cd934ebfd1811d5e31dc90c6e203eb5a0239cb571d2317bc"
-    },
-    {
-      "date": 1686057310918,
-      "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-06-06-19-error.log",
-      "hash": "2e94ed45ef8e8366e0c7fb8d2c22c17122409dd525b585212f5b5dab0d5f8e74"
-    },
-    {
-      "date": 1686069327928,
-      "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-06-06-22-error.log",
-      "hash": "92cd6b206fdba4b15292dbb724e1e54687f4ae9ee8442214f4ea9f587c95dda1"
-    },
-    {
-      "date": 1686073836984,
-      "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-06-06-23-error.log",
-      "hash": "ded0bfadb7e4833ce01134c075ef528ac99a88336bbaecad4529f4e2c90c0c35"
-    },
-    {
-      "date": 1686074665902,
-      "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-07-06-00-error.log",
-      "hash": "8242686ab0a18715becbe0784014390d852167a74137fdc03a4a80353b025a17"
-    },
-    {
-      "date": 1686078000110,
-      "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-07-06-01-error.log",
-      "hash": "047feb9c90e7ff0726f4bf21e1b6d572ecf24582375529d42bbbfc84e1d4df8a"
-    },
-    {
-      "date": 1686081673709,
-      "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-07-06-02-error.log",
-      "hash": "669144222cafc027275ed1ad69c2dfaaa5fb9ff65b7e1a6cb2fe5cd812e8b131"
-    },
-    {
-      "date": 1686085861242,
-      "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-07-06-03-error.log",
-      "hash": "e7bbf9caa18eb5b277bd0d069a53f9958fde9f428935225330d3bb100f4caf5f"
-    },
-    {
-      "date": 1686138153647,
-      "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-07-06-17-error.log",
-      "hash": "a775d8d3b2cc106d9cdfe884ffcaff46c8bb7ce9d6c4b5434959b39c26521414"
-    },
-    {
-      "date": 1686139270902,
-      "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-07-06-18-error.log",
-      "hash": "5ca750e7789b454329e5fc33a753976d0dfa34b1cd994c5618534ffe8b5c045e"
-    },
-    {
-      "date": 1686149850161,
-      "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-07-06-20-error.log",
-      "hash": "0e7bcde67202c252b3a13c6060ffbd11d275eee65c28894b9583ef86205860de"
-    },
-    {
-      "date": 1686150001523,
-      "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-07-06-21-error.log",
-      "hash": "0141d9b4ee382bfb821cfe4bcca4b16f3f3771dde2071dc7293c238178ddd646"
-    },
-    {
-      "date": 1686153600756,
-      "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-07-06-22-error.log",
-      "hash": "08d08859447a6313af8aa65cf46c216d754cb502daa83c198cc4fde8bcaafe0b"
-    }
-  ],
-  "hashType": "sha256"
+    "auditLog": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\.d8d06719ecd3a40ec3c553db019dae0bd59b85e2-audit.json",
+    "files": [
+        {
+            "date": 1686034660988,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-06-06-12-error.log",
+            "hash": "7d0f033ac8f4c96c5ef32c32647b87e598cdc4e9495ec60914d74701e214b762"
+        },
+        {
+            "date": 1686048774704,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-06-06-16-error.log",
+            "hash": "26fc392d3af08390cd934ebfd1811d5e31dc90c6e203eb5a0239cb571d2317bc"
+        },
+        {
+            "date": 1686057310918,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-06-06-19-error.log",
+            "hash": "2e94ed45ef8e8366e0c7fb8d2c22c17122409dd525b585212f5b5dab0d5f8e74"
+        },
+        {
+            "date": 1686069327928,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-06-06-22-error.log",
+            "hash": "92cd6b206fdba4b15292dbb724e1e54687f4ae9ee8442214f4ea9f587c95dda1"
+        },
+        {
+            "date": 1686073836984,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-06-06-23-error.log",
+            "hash": "ded0bfadb7e4833ce01134c075ef528ac99a88336bbaecad4529f4e2c90c0c35"
+        },
+        {
+            "date": 1686074665902,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-07-06-00-error.log",
+            "hash": "8242686ab0a18715becbe0784014390d852167a74137fdc03a4a80353b025a17"
+        },
+        {
+            "date": 1686078000110,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-07-06-01-error.log",
+            "hash": "047feb9c90e7ff0726f4bf21e1b6d572ecf24582375529d42bbbfc84e1d4df8a"
+        },
+        {
+            "date": 1686081673709,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-07-06-02-error.log",
+            "hash": "669144222cafc027275ed1ad69c2dfaaa5fb9ff65b7e1a6cb2fe5cd812e8b131"
+        },
+        {
+            "date": 1686085861242,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-07-06-03-error.log",
+            "hash": "e7bbf9caa18eb5b277bd0d069a53f9958fde9f428935225330d3bb100f4caf5f"
+        },
+        {
+            "date": 1686138153647,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-07-06-17-error.log",
+            "hash": "a775d8d3b2cc106d9cdfe884ffcaff46c8bb7ce9d6c4b5434959b39c26521414"
+        },
+        {
+            "date": 1686139270902,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-07-06-18-error.log",
+            "hash": "5ca750e7789b454329e5fc33a753976d0dfa34b1cd994c5618534ffe8b5c045e"
+        },
+        {
+            "date": 1686149850161,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-07-06-20-error.log",
+            "hash": "0e7bcde67202c252b3a13c6060ffbd11d275eee65c28894b9583ef86205860de"
+        },
+        {
+            "date": 1686150001523,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-07-06-21-error.log",
+            "hash": "0141d9b4ee382bfb821cfe4bcca4b16f3f3771dde2071dc7293c238178ddd646"
+        },
+        {
+            "date": 1686153600756,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-07-06-22-error.log",
+            "hash": "08d08859447a6313af8aa65cf46c216d754cb502daa83c198cc4fde8bcaafe0b"
+        },
+        {
+            "date": 1686160344993,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-07-06-23-error.log",
+            "hash": "d43193957a9ea8a56dc389685f30f9d80fb0b3805c308c1603d045ccc9b00280"
+        },
+        {
+            "date": 1686161243889,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-08-06-00-error.log",
+            "hash": "5e35aaadb5755a01edd271117d258b73732c26c82af8309353b2b4bb5c65ef70"
+        },
+        {
+            "date": 1686209557601,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-08-06-13-error.log",
+            "hash": "8fd0271539749a77f4e0876590b9cc59ed5f582b28eb1a43617b9a26fbefb635"
+        },
+        {
+            "date": 1686245103190,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-08-06-23-error.log",
+            "hash": "a53b473efa95ec1beb486e0929ac2a243b19e71a1f8008495796f9500f527ad4"
+        },
+        {
+            "date": 1686284430901,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-09-06-10-error.log",
+            "hash": "31f87bf417635000636f2f5323abf446ad94ad9fca25d4941c308fe2ac795e76"
+        },
+        {
+            "date": 1686300297818,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-09-06-14-error.log",
+            "hash": "703009c6998eb187e0c44d5e0756eab74735fb6a242baa6f1322b84a03378f60"
+        },
+        {
+            "date": 1686301365961,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-09-06-15-error.log",
+            "hash": "f510227e940f40dab1e8edd67d5e56c182283d897edbb1296bf126b145346655"
+        },
+        {
+            "date": 1686327350422,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\error\\UMS-2023-09-06-22-error.log",
+            "hash": "8f0b000e4bcf88dda5612e67669a66cb92ab8185ac4d17ff9626e92af35bc0ee"
+        }
+    ],
+    "hashType": "sha256"
 }

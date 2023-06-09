@@ -10,18 +10,17 @@ import { IUser } from './user.interface';
  * and sends the response with the result.
  * If an error occurs, it forwards the error to the next error handling middleware.
  */
-const createUser: RequestHandler = catchAsync(async (req, res, next) => {
-  const { user } = req.body; // Extract the user data from the request body
-  const result = await UserService.createUser(user); // Call the UserService to create the user
+const createUser: RequestHandler = catchAsync(async (req, res) => {
+  const result = await UserService.createUser(req.body); // Call the UserService to create the user
 
   // Dynamic response sender generic function to ensure response format
-  sendResponse<IUser>(res, {
+
+  return sendResponse<IUser>(res, {
     statusCode: 200,
     success: true,
     message: 'User created successfully',
     data: result,
   });
-  next();
 });
 
 /**

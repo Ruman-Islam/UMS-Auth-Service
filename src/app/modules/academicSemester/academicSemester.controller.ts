@@ -15,20 +15,19 @@ If an error occurs, it forwards the error to the next error handling middleware.
 @param next The next middleware function.
 @returns A Promise that resolves to the response.
 */
-const createSemester: RequestHandler = catchAsync(async (req, res, next) => {
+const createSemester: RequestHandler = catchAsync(async (req, res) => {
   const { ...academicSemesterData } = req.body;
   const result = await academicSemesterService.createSemester(
     academicSemesterData
   );
 
   // Dynamic response sender generic function to ensure response format
-  sendResponse<IAcademicSemester>(res, {
+  return sendResponse<IAcademicSemester>(res, {
     statusCode: 200,
     success: true,
     message: 'Academic semester created successfully',
     data: result,
   });
-  next();
 });
 export const academicSemesterController = {
   createSemester,

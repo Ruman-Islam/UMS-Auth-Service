@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-expressions */
 import config from '../../config';
 import ApiError from '../../errors/ApiError';
-import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
+import { ErrorRequestHandler } from 'express';
 import { IGenericErrorMessage } from '../../interface/error';
 import handleValidationError from '../../errors/handleValidationError';
 import { errorLogger } from '../../shared/logger';
@@ -11,9 +11,9 @@ import handleZodError from '../../errors/handleZodError';
 
 const globalErrorHandler: ErrorRequestHandler = (
   error, // <= All the error comes through  this error
-  req: Request,
-  res: Response,
-  next: NextFunction
+  req, // Express request object
+  res, // Express response object
+  next // Express next function
 ) => {
   /**
    While "development" mode here it will print the error. And while "production" mode it will store the error log and also it'll print the error because in the "errorLogger" function instructions are given to print on console. 
@@ -31,55 +31,67 @@ const globalErrorHandler: ErrorRequestHandler = (
   let message = 'Something went wrong!';
   let errorMessages: IGenericErrorMessage[] = [];
   // ..................
+  let simplifiedError;
 
   // When mongoose schema validation error caught
-  if (error?.name === 'ValidationError') {
-    /**
-     "handleValidation" helps to reshape the mongoose's error into generic an error response format. Because different technologies error's are different different. It returns status code, message and error messages in a format which.
-     */
-    const simplifiedError = handleValidationError(error);
-    statusCode = simplifiedError?.statusCode;
-    message = simplifiedError?.message;
-    errorMessages = simplifiedError?.errorMessages;
-    // ..................
-  } else if (error instanceof ZodError) {
-    /**
-     "handleZodError" helps to reshape the Zod error into an generic error response format. Because different technologies error's are different different. It returns status code, message and error messages.
-     */
-    const simplifiedError = handleZodError(error);
-    statusCode = simplifiedError?.statusCode;
-    message = simplifiedError?.message;
-    errorMessages = simplifiedError?.errorMessages;
-    // ..................
-  } else if (error instanceof ApiError) {
-    /**
-     When error occurred from any api: service. Services will send error through custom-maid "ApiError". And here reshaping the error to show as generic response
-     */
-    statusCode = error?.statusCode;
-    message = error?.message;
-    errorMessages = error?.message
-      ? [
-          {
-            path: '',
-            message: error?.message,
-          },
-        ]
-      : [];
-    // ..................
-  } else if (error instanceof Error) {
-    /**
-     When error throws from built-in Error constructor it will catch the error and here reshape the error to show as generic response
-     */
-    message = error?.message;
-    errorMessages = error?.message
-      ? [
-          {
-            path: '',
-            message: error?.message,
-          },
-        ]
-      : [];
-    // ..................
+  switch (true) {
+    case error?.name === 'ValidationError':
+      /**
+       * "handleValidation" helps to reshape the mongoose's error into a generic error response format.
+       * Because errors can have different formats in different technologies.
+       * It returns the status code, message, and error messages in a standardized format.
+       */
+      simplifiedError = handleValidationError(error);
+      statusCode = simplifiedError?.statusCode;
+      message = simplifiedError?.message;
+      errorMessages = simplifiedError?.errorMessages;
+      // ...
+      break;
+    case error instanceof ZodError:
+      /**
+       * "handleZodError" helps to reshape the Zod error into a generic error response format.
+       * Because errors can have different formats in different technologies.
+       * It returns the status code, message, and error messages.
+       */
+      simplifiedError = handleZodError(error);
+      statusCode = simplifiedError?.statusCode;
+      message = simplifiedError?.message;
+      errorMessages = simplifiedError?.errorMessages;
+      // ...
+      break;
+    case error instanceof ApiError:
+      /**
+       * When an error occurs from any API service, services may send errors through a custom-made "ApiError".
+       * Here, we reshape the error to show it as a generic response.
+       */
+      statusCode = error?.statusCode;
+      message = error?.message;
+      errorMessages = error?.message
+        ? [
+            {
+              path: '',
+              message: error?.message,
+            },
+          ]
+        : [];
+      // ...
+      break;
+    case error instanceof Error:
+      /**
+       * When an error is thrown from the built-in Error constructor,
+       * we catch the error and reshape it to show as a generic response.
+       */
+      message = error?.message;
+      errorMessages = error?.message
+        ? [
+            {
+              path: '',
+              message: error?.message,
+            },
+          ]
+        : [];
+      // ...
+      break;
   }
 
   // Generic Error Response
