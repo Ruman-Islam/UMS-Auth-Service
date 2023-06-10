@@ -3,11 +3,12 @@
 import config from '../../config';
 import ApiError from '../../errors/ApiError';
 import { ErrorRequestHandler } from 'express';
-import { IGenericErrorMessage } from '../../interface/error';
+import { GenericErrorMessageType } from '../../interface/error';
 import handleValidationError from '../../errors/handleValidationError';
 import { errorLogger } from '../../shared/logger';
 import { ZodError } from 'zod';
 import handleZodError from '../../errors/handleZodError';
+import httpStatus from 'http-status';
 
 const globalErrorHandler: ErrorRequestHandler = (
   error, // <= All the error comes through  this error
@@ -27,9 +28,9 @@ const globalErrorHandler: ErrorRequestHandler = (
    A generic error response must holds initial status code, error message and error messages by default. 
    This portions will be changed based on the error type dynamically
    */
-  let statusCode = 500;
-  let message = 'Something went wrong!';
-  let errorMessages: IGenericErrorMessage[] = [];
+  let statusCode: number = httpStatus.INTERNAL_SERVER_ERROR;
+  let message: string = 'Something went wrong!' as string;
+  let errorMessages: GenericErrorMessageType[] = [];
   // ..................
   let simplifiedError;
 

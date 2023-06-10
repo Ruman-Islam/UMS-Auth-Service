@@ -1,6 +1,7 @@
 import { ZodError, ZodIssue } from 'zod';
-import { IGenericErrorResponse } from '../interface/common';
-import { IGenericErrorMessage } from '../interface/error';
+import { GenericErrorResponseType } from '../interface/common';
+import { GenericErrorMessageType } from '../interface/error';
+import httpStatus from 'http-status';
 
 /**
  * Reshaping the validation error from Zod into a generic error response.
@@ -19,16 +20,18 @@ import { IGenericErrorMessage } from '../interface/error';
     : []
   };
  */
-const handleZodError = (error: ZodError): IGenericErrorResponse => {
+const handleZodError = (error: ZodError): GenericErrorResponseType => {
   // Extract the error messages from the Zod error
-  const errors: IGenericErrorMessage[] = error.issues.map((issue: ZodIssue) => {
-    return {
-      path: issue?.path[issue.path.length - 1],
-      message: issue?.message,
-    };
-  });
+  const errors: GenericErrorMessageType[] = error.issues.map(
+    (issue: ZodIssue) => {
+      return {
+        path: issue?.path[issue.path.length - 1],
+        message: issue?.message,
+      };
+    }
+  );
 
-  const statusCode = 400;
+  const statusCode: number = httpStatus.BAD_REQUEST;
   return {
     statusCode,
     message: 'Zod Error',

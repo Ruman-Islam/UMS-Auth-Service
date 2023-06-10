@@ -2,6 +2,7 @@ import cors from 'cors';
 import express, { Application, Request, Response } from 'express';
 import globalErrorHandler from './app/middleware/globalErrorHandler';
 import routes from './app/routes';
+import httpStatus from 'http-status';
 
 const app: Application = express(); // Create an instance of the Express application
 
@@ -15,7 +16,8 @@ app.use('/api/v1', routes);
 
 // Handle not found
 app.use((req: Request, res: Response) => {
-  return res.status(404).json({
+  // Return a JSON response with the appropriate status code and error message
+  return res.status(httpStatus.NOT_FOUND).json({
     success: false,
     message: 'API not found',
     errorMessages: [
@@ -28,6 +30,7 @@ app.use((req: Request, res: Response) => {
 });
 
 // Global Error Handler
-app.use(globalErrorHandler); // Middleware to handle errors globally and send standardized error responses
+// Middleware to handle errors globally and send standardized error responses
+app.use(globalErrorHandler);
 
 export default app;

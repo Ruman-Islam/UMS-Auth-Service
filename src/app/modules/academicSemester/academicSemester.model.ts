@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 import {
   AcademicSemesterModel,
-  IAcademicSemester,
+  AcademicSemesterType,
 } from './academicSemester.interface';
 import {
   academicSemesterCodes,
@@ -9,9 +9,10 @@ import {
   academicSemesterTitles,
 } from './academicSemester.constant';
 import ApiError from '../../../errors/ApiError';
+import httpStatus from 'http-status';
 
 // Defining the Mongoose schema for academic semesters
-const academicSemesterSchema = new Schema<IAcademicSemester>(
+const academicSemesterSchema = new Schema<AcademicSemesterType>(
   {
     title: {
       type: String,
@@ -73,12 +74,15 @@ academicSemesterSchema.pre('save', async function (next) {
     next();
   } else {
     // If the academic semester already exists, throw an ApiError with a status code of 409 (Conflict) and an error message
-    throw new ApiError(409, 'Academic semester is already exist!');
+    throw new ApiError(
+      httpStatus.CONFLICT,
+      'Academic semester is already exist!'
+    );
   }
 });
 
 // Create the Mongoose model for academic semesters
-export const AcademicSemester = model<IAcademicSemester, AcademicSemesterModel>(
-  'AcademicSemester',
-  academicSemesterSchema
-);
+export const AcademicSemester = model<
+  AcademicSemesterType,
+  AcademicSemesterModel
+>('AcademicSemester', academicSemesterSchema);

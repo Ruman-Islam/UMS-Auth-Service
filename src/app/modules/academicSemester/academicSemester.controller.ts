@@ -1,8 +1,11 @@
 import { RequestHandler } from 'express';
-import { academicSemesterService } from './academicSemester.services';
+import { AcademicSemesterService } from './academicSemester.services';
+import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
-import { IAcademicSemester } from './academicSemester.interface';
+import { AcademicSemesterType } from './academicSemester.interface';
+import pick from '../../../shared/pick';
+import { paginationFields } from '../../../constants/pagination';
 
 /**
 createSemester is a request handler function that handles to creates a new academic semester using service.
@@ -17,18 +20,48 @@ If an error occurs, it forwards the error to the next error handling middleware.
 */
 const createSemester: RequestHandler = catchAsync(async (req, res) => {
   const { ...academicSemesterData } = req.body;
-  const result = await academicSemesterService.createSemester(
+  const result = await AcademicSemesterService.createSemester(
     academicSemesterData
   );
 
   // Dynamic response sender generic function to ensure response format
-  return sendResponse<IAcademicSemester>(res, {
-    statusCode: 200,
+  return sendResponse<AcademicSemesterType>(res, {
+    statusCode: httpStatus.CREATED,
     success: true,
     message: 'Academic semester created successfully',
+    meta: null,
     data: result,
   });
 });
-export const academicSemesterController = {
+
+/**
+ * getAllSemesters is a request handler function that handles the retrieval of all academic semesters.
+ * It extracts pagination options from the request query.
+ * It calls the AcademicSemesterService.getAllSemesters function to fetch the semesters using the pagination options.
+ * If the retrieval is successful, it sends a response with a success status, a message, pagination metadata, and the retrieved semesters.
+ * @param req The Express Request object.
+ * @param res The Express Response object.
+ * @returns A Promise that resolves to the response.
+ */
+const getAllSemesters: RequestHandler = catchAsync(async (req, res) => {
+  // To manage pagination fields
+  const paginationOptions = pick(req.query, paginationFields);
+
+  const result = await AcademicSemesterService.getAllSemesters(
+    paginationOptions
+  );
+
+  // Dynamic response sender generic function to ensure response format
+  return sendResponse<AcademicSemesterType[]>(res, {
+    statusCode: httpStatus.FOUND,
+    success: true,
+    message: 'Semesters retrieved successfully',
+    meta: result.meta,
+    data: result.data,
+  });
+});
+
+export const AcademicSemesterController = {
   createSemester,
+  getAllSemesters,
 };

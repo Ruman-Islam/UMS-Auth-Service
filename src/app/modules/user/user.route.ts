@@ -17,4 +17,11 @@ router.post(
   UserController.createUser
 );
 
+/**
+ * Route for getting all the users information.
+ * It will retrieve all the data by Pagination
+ * and calls the getAllUsers controller method from UserController.
+ */
+router.get('/get-all-users', UserController.getAllUsers);
+
 export const UserRoutes = router;
