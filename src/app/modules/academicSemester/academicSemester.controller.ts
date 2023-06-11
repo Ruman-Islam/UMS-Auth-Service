@@ -106,18 +106,39 @@ const updateSemester: RequestHandler = catchAsync(async (req, res) => {
   const updatedData = req.body; // Get the updated semester data from the request body
 
   // Calling the service
-  const result = await AcademicSemesterService.updateSingleSemester(
-    id,
-    updatedData
-  ); // Call the service to update the semester using the provided ID and data
+  const result = await AcademicSemesterService.updateSemester(id, updatedData); // Call the service to update the semester using the provided ID and data
 
   // Dynamic response sender generic function to ensure response format
   return sendResponse<AcademicSemesterType>(res, {
-    statusCode: httpStatus.FOUND, // Set the status code to indicate a successful update
+    statusCode: httpStatus.OK, // Set the status code to indicate a successful update
     success: true, // Set the success flag to indicate a successful operation
     message: 'Semester updated successfully', // Provide a descriptive message about the update
     meta: null, // No additional metadata needed for this response
     data: result, // Provide the updated semester data in the response
+  });
+});
+
+/**
+ * deleteSemester is a request handler function that delete that academic semester.
+ * It accepts the Express Request and Response objects as parameters.
+ * @param req The Express Request object.
+ * @param res The Express Response object.
+ * @returns A Promise that resolves to the response.
+ */
+const deleteSemester: RequestHandler = catchAsync(async (req, res) => {
+  // Retrieving data from request
+  const id = req.params.id; // Get the semester ID from the request parameters
+
+  // Calling the service
+  const result = await AcademicSemesterService.deleteSemester(id); // Call the service to delete the semester using the provided ID and data
+
+  // Dynamic response sender generic function to ensure response format
+  return sendResponse<AcademicSemesterType>(res, {
+    statusCode: httpStatus.OK, // Set the status code to indicate a successful update
+    success: true, // Set the success flag to indicate a successful operation
+    message: 'Semester delete successfully', // Provide a descriptive message about the update
+    meta: null, // No additional metadata needed for this response
+    data: result, // Provide the delete semester data in the response
   });
 });
 
@@ -126,4 +147,5 @@ export const AcademicSemesterController = {
   getAllSemesters,
   getSingleSemester,
   updateSemester,
+  deleteSemester,
 };

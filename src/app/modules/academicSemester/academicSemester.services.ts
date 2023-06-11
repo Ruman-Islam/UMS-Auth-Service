@@ -128,7 +128,13 @@ const getSingleSemester = async (
   return result;
 };
 
-const updateSingleSemester = async (
+/**
+ * updateSemester is an asynchronous function that updates a single academic semester by its ID and .
+ * It accepts the ID of the academic semester as a parameter.
+ * @param id The ID of the academic semester to retrieve.
+ * @returns A Promise that resolves to the retrieved academic semester, or null if not found.
+ */
+const updateSemester = async (
   id: string,
   payload: Partial<AcademicSemesterType>
 ): Promise<AcademicSemesterType | null> => {
@@ -138,14 +144,41 @@ const updateSingleSemester = async (
     payload.code &&
     academicSemesterTitleCodeMapper[payload.title] !== payload.code
   ) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid semester code!');
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid semester code!'); // Throw an error if the provided semester code does not match the title
+  } else if (payload.title && payload.year) {
+    const isExist = await AcademicSemester.findOne({
+      title: payload.title,
+      year: payload.year,
+    }); // Check if an academic semester with the same title and year already exists
+    if (isExist) {
+      throw new ApiError(
+        httpStatus.CONFLICT,
+        'Academic semester is already exist!'
+      ); // Throw an error if the academic semester already exists
+    }
   }
 
   // Query the database to update the academic semester by its ID
   const result = await AcademicSemester.findOneAndUpdate({ _id: id }, payload, {
-    new: true,
-    runValidators: true,
+    new: true, // Return the updated document
+    runValidators: true, // Run validators during the update operation
   });
+
+  // Return the updated academic semester, or null if not found
+  return result;
+};
+
+/**
+ * deleteSemester is an asynchronous function that delete a single academic semester by its ID.
+ * It accepts the ID of the academic semester as a parameter.
+ * @param id The ID of the academic semester to retrieve.
+ * @returns A Promise that resolves to the retrieved academic semester, or null if not found.
+ */
+const deleteSemester = async (
+  id: string
+): Promise<AcademicSemesterType | null> => {
+  // Query the database to update the academic semester by its ID
+  const result = await AcademicSemester.findByIdAndDelete(id);
 
   // Return the updated academic semester, or null if not found
   return result;
@@ -155,5 +188,6 @@ export const AcademicSemesterService = {
   createSemester,
   getAllSemesters,
   getSingleSemester,
-  updateSingleSemester,
+  updateSemester,
+  deleteSemester,
 };

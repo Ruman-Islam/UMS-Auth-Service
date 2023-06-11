@@ -35,6 +35,11 @@ router.patch(
 );
 
 /**
+ * delete a single semester information from academic semester collection
+ */
+router.delete('/:id', AcademicSemesterController.deleteSemester);
+
+/**
  * Route for getting all the academic semester information.
  * It will retrieve all the data by Pagination
  * and calls the getAllSemesters controller method from AcademicSemesterController.
