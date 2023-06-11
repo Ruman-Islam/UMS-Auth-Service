@@ -1,9 +1,13 @@
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
-import { academicSemesterTitleCodeMapper } from './academicSemester.constant';
+import {
+  academicSemesterSearchableFields,
+  academicSemesterTitleCodeMapper,
+} from './academicSemester.constant';
 import { AcademicSemesterType } from './academicSemester.interface';
 import { AcademicSemester } from './academicSemester.model';
 import {
+  FilterType,
   GenericResponseType,
   PaginationOptionType,
 } from '../../../interface/common';
@@ -11,54 +15,93 @@ import { PaginationHelpers } from '../../../helper/paginationHelper';
 import { SortOrder } from 'mongoose';
 
 /**
-createSemester is a service function that creates a new academic semester.
-It receives a payload of type AcademicSemesterType, which contains the necessary data for creating the semester.
-The function first checks if the code provided in the payload matches the code mapped to the title in the academicSemesterTitleCodeMapper object.
-If they don't match, it throws an ApiError with a status code of 400 and an error message indicating an invalid semester code.
-If the code is valid, the function uses the AcademicSemester model to create the semester in the database and returns the result.
-@param payload The payload containing the data for creating the academic semester.
-@returns A Promise that resolves to the created academic semester.
-*/
+ * createSemester is an asynchronous function that creates a new academic semester.
+ * It accepts the payload containing the details of the academic semester to be created.
+ * @param payload The payload containing the details of the academic semester.
+ * @returns A Promise that resolves to the created academic semester.
+ * @throws An ApiError with a status code of 400 (Bad Request) if the semester code is invalid.
+ */
 const createSemester = async (
   payload: AcademicSemesterType
 ): Promise<AcademicSemesterType> => {
+  // Check if the provided semester code matches the title using the academicSemesterTitleCodeMapper
   if (academicSemesterTitleCodeMapper[payload.title] !== payload.code) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid semester code!');
   }
+
+  // Create the academic semester in the database using the payload
   const result = await AcademicSemester.create(payload);
+
+  // Return the created academic semester
   return result;
 };
 
 /**
- * getAllSemesters is an asynchronous function that retrieves academic semesters based on the provided pagination options.
- * It calculates the pagination parameters such as page, limit, skip, sortBy, and sortOrder using the PaginationHelpers.calculationPagination function.
- * It initializes an empty object sortConditions to hold the sorting conditions.
- * If sortBy and sortOrder are provided, it assigns them to the sortConditions object.
- * It queries the AcademicSemester collection, sorts the results based on the sortConditions, skips the specified number of documents, and limits the number of documents to retrieve.
- * It retrieves the total count of academic semesters using the AcademicSemester.countDocuments function.
- * It returns a Promise that resolves to a GenericResponseType containing the retrieved academic semesters and the pagination metadata.
- * @param paginationOptions The pagination options used to retrieve academic semesters.
- * @returns A Promise that resolves to a GenericResponseType containing the retrieved academic semesters and the pagination metadata.
+ * getAllSemesters is an asynchronous function that retrieves academic semesters based on provided filters and pagination options.
+ * It accepts filters and pagination options as parameters.
+ * @param filters The filters object containing the searchTerm and other filter data.
+ * @param paginationOptions The pagination options object specifying the page, limit, sortBy, and sortOrder.
+ * @returns A Promise that resolves to the response containing the retrieved academic semesters.
  */
 const getAllSemesters = async (
+  filters: FilterType,
   paginationOptions: PaginationOptionType
 ): Promise<GenericResponseType<AcademicSemesterType[]>> => {
+  // Destructure the searchTerm and remaining filters from the filters object
+  const { searchTerm, ...filtersData } = filters;
+
+  // Initialize an array to hold the conditions for the $and operator
+  const andCondition = [];
+
+  // Check if searchTerm is provided
+  if (searchTerm) {
+    // Create $or conditions for each searchable field and push them to andCondition array
+    andCondition.push({
+      $or: academicSemesterSearchableFields.map(field => ({
+        [field]: {
+          $regex: searchTerm,
+          $options: 'i',
+        },
+      })),
+    });
+  }
+
+  // Check if any other filters are provided
+  if (Object.keys(filtersData).length) {
+    // Create $and conditions for each filter field and value pair and push them to andCondition array
+    andCondition.push({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [field]: value,
+      })),
+    });
+  }
+
+  // Calculate pagination options
   const { page, limit, skip, sortBy, sortOrder } =
     PaginationHelpers.calculationPagination(paginationOptions);
 
+  // Initialize an object to hold sort conditions
   const sortConditions: { [key: string]: SortOrder } = {};
 
+  // Check if sortBy and sortOrder are provided
   if (sortBy && sortOrder) {
+    // Set the sortConditions object with the provided sortBy and sortOrder
     sortConditions[sortBy] = sortOrder;
   }
 
-  const result = await AcademicSemester.find({})
+  // Create whereConditions based on andCondition array
+  const whereConditions = andCondition.length > 0 ? { $and: andCondition } : {};
+
+  // Query the database to retrieve academic semesters based on the filters, pagination, and sorting
+  const result = await AcademicSemester.find(whereConditions)
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
 
+  // Count the total number of academic semesters
   const total = await AcademicSemester.countDocuments();
 
+  // Construct and return the response object containing the meta and data
   return {
     meta: {
       page,
@@ -69,7 +112,48 @@ const getAllSemesters = async (
   };
 };
 
+/**
+ * getSingleSemester is an asynchronous function that retrieves a single academic semester by its ID.
+ * It accepts the ID of the academic semester as a parameter.
+ * @param id The ID of the academic semester to retrieve.
+ * @returns A Promise that resolves to the retrieved academic semester, or null if not found.
+ */
+const getSingleSemester = async (
+  id: string
+): Promise<AcademicSemesterType | null> => {
+  // Query the database to retrieve the academic semester by its ID
+  const result = await AcademicSemester.findById(id);
+
+  // Return the retrieved academic semester, or null if not found
+  return result;
+};
+
+const updateSingleSemester = async (
+  id: string,
+  payload: Partial<AcademicSemesterType>
+): Promise<AcademicSemesterType | null> => {
+  // Check if the provided semester code matches the title using the academicSemesterTitleCodeMapper
+  if (
+    payload.title &&
+    payload.code &&
+    academicSemesterTitleCodeMapper[payload.title] !== payload.code
+  ) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid semester code!');
+  }
+
+  // Query the database to update the academic semester by its ID
+  const result = await AcademicSemester.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+    runValidators: true,
+  });
+
+  // Return the updated academic semester, or null if not found
+  return result;
+};
+
 export const AcademicSemesterService = {
   createSemester,
   getAllSemesters,
+  getSingleSemester,
+  updateSingleSemester,
 };

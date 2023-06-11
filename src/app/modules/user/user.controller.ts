@@ -6,6 +6,7 @@ import { UserType } from './user.interface';
 import httpStatus from 'http-status';
 import pick from '../../../shared/pick';
 import { paginationFields } from '../../../constants/pagination';
+import { userSearchableFields } from './user.constant';
 
 /**
  * createUser is a request handler function that handles the creation of a new user.
@@ -16,7 +17,8 @@ import { paginationFields } from '../../../constants/pagination';
  * @returns A Promise that resolves to the response.
  */
 const createUser: RequestHandler = catchAsync(async (req, res) => {
-  const result = await UserService.createUser(req.body); // Call the UserService to create the user
+  // Call the UserService to create the user
+  const result = await UserService.createUser(req.body);
 
   // Dynamic response sender generic function to ensure response format
   return sendResponse<UserType>(res, {
@@ -38,11 +40,16 @@ const createUser: RequestHandler = catchAsync(async (req, res) => {
  * @returns A Promise that resolves to the response.
  */
 const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
+  // To manage filter fields
+  const filters = pick(req.query, ['searchTerm', ...userSearchableFields]);
+
   // To manage pagination fields
   const paginationOptions = pick(req.query, paginationFields);
 
-  const result = await UserService.getAllUsers(paginationOptions);
+  // Calling the service
+  const result = await UserService.getAllUsers(filters, paginationOptions);
 
+  // Dynamic response sender generic function to ensure response format
   return sendResponse<UserType[]>(res, {
     statusCode: httpStatus.FOUND,
     success: true,
@@ -53,9 +60,31 @@ const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
 });
 
 /**
- * UserController object that exports the createUser request handler.
+ * getAllUsers is a request handler function that handles the retrieval of a single user.
+ * It calls the UserService.getSingleUser function to fetch the user using the object id.
+ * If the retrieval is successful, it sends a response with a success status, a message, pagination metadata, and the retrieved user.
+ * @param req The Express Request object.
+ * @param res The Express Response object.
+ * @returns A Promise that resolves to the response.
  */
+const getSingleUser: RequestHandler = catchAsync(async (req, res) => {
+  const id = req.params.id;
+
+  // Calling the service
+  const result = await UserService.getSingleUser(id);
+
+  // Dynamic response sender generic function to ensure response format
+  return sendResponse<UserType>(res, {
+    statusCode: httpStatus.FOUND,
+    success: true,
+    message: 'User retrieved successfully',
+    meta: null,
+    data: result,
+  });
+});
+
 export const UserController = {
   createUser,
   getAllUsers,
+  getSingleUser,
 };

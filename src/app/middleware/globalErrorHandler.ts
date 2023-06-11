@@ -9,6 +9,7 @@ import { errorLogger } from '../../shared/logger';
 import { ZodError } from 'zod';
 import handleZodError from '../../errors/handleZodError';
 import httpStatus from 'http-status';
+import handleCastError from '../../errors/handleCastError';
 
 const globalErrorHandler: ErrorRequestHandler = (
   error, // <= All the error comes through  this error
@@ -48,6 +49,20 @@ const globalErrorHandler: ErrorRequestHandler = (
       errorMessages = simplifiedError?.errorMessages;
       // ...
       break;
+
+    case error?.name === 'CastError':
+      /**
+       * "handleCastError" helps to reshape the mongoose's error into a generic error response format.
+       * Because errors can have different formats in different technologies.
+       * It returns the status code, message, and error messages in a standardized format.
+       */
+      simplifiedError = handleCastError(error);
+      statusCode = simplifiedError?.statusCode;
+      message = simplifiedError?.message;
+      errorMessages = simplifiedError?.errorMessages;
+      // ...
+      break;
+
     case error instanceof ZodError:
       /**
        * "handleZodError" helps to reshape the Zod error into a generic error response format.
@@ -60,6 +75,7 @@ const globalErrorHandler: ErrorRequestHandler = (
       errorMessages = simplifiedError?.errorMessages;
       // ...
       break;
+
     case error instanceof ApiError:
       /**
        * When an error occurs from any API service, services may send errors through a custom-made "ApiError".
@@ -77,6 +93,7 @@ const globalErrorHandler: ErrorRequestHandler = (
         : [];
       // ...
       break;
+
     case error instanceof Error:
       /**
        * When an error is thrown from the built-in Error constructor,

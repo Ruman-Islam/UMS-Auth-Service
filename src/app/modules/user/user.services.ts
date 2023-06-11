@@ -3,14 +3,14 @@ import config from '../../../config';
 import ApiError from '../../../errors/ApiError';
 import { PaginationHelpers } from '../../../helper/paginationHelper';
 import {
+  FilterType,
   GenericResponseType,
   PaginationOptionType,
 } from '../../../interface/common';
 import { UserType } from './user.interface';
 import { User } from './user.model';
 import { generateUserId } from './user.utils';
-
-// This code exports a UserService object that provides the createUser method.
+import { userSearchableFields } from './user.constant';
 
 /** The createUser method accepts a user object and performs the following steps:
 1. Generates an auto-generated incremental id using generateUserId().
@@ -26,7 +26,6 @@ const createUser = async (user: UserType): Promise<UserType | null> => {
     1. auto generated incremental id
     2. default password
     */
-
   const id = await generateUserId();
   user.id = id;
 
@@ -43,35 +42,63 @@ const createUser = async (user: UserType): Promise<UserType | null> => {
 };
 
 /**
- * getAllUsers is an asynchronous function that retrieves all users based on the provided pagination options.
- * It calculates the pagination parameters such as page, limit, skip, sortBy, and sortOrder using the PaginationHelpers.calculationPagination function.
- * It initializes an empty object sortConditions to hold the sorting conditions.
- * If sortBy and sortOrder are provided, it assigns them to the sortConditions object.
- * It queries the User collection, sorts the results based on the sortConditions, skips the specified number of documents, and limits the number of documents to retrieve.
- * It retrieves the total count of users using the User.countDocuments function.
- * It returns a Promise that resolves to a GenericResponseType containing the retrieved users and the pagination metadata.
+ * @getAllUsers is an asynchronous function that retrieves all users based on the provided pagination options.
  * @param paginationOptions The pagination options used to retrieve users.
  * @returns A Promise that resolves to a GenericResponseType containing the retrieved users and the pagination metadata.
  */
 const getAllUsers = async (
+  filters: FilterType,
   paginationOptions: PaginationOptionType
 ): Promise<GenericResponseType<UserType[]>> => {
+  const { searchTerm, ...filtersData } = filters;
+  const andCondition = [];
+
+  // Generating partial search mechanism
+  if (searchTerm) {
+    andCondition.push({
+      $or: userSearchableFields.map(field => ({
+        [field]: {
+          $regex: searchTerm,
+          $options: 'i',
+        },
+      })),
+    });
+  }
+
+  // Generating filter search mechanism
+  if (Object.keys(filtersData).length) {
+    andCondition.push({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [field]: value,
+      })),
+    });
+  }
+
+  // It calculates the pagination parameters such as page, limit, skip, sortBy, and sortOrder using the PaginationHelpers.calculationPagination function.
   const { page, limit, skip, sortBy, sortOrder } =
     PaginationHelpers.calculationPagination(paginationOptions);
 
+  // It initializes an empty object sortConditions to hold the sorting conditions.
   const sortConditions: { [key: string]: SortOrder } = {};
 
+  // If sortBy and sortOrder are provided, it assigns them to the sortConditions object.
   if (sortBy && sortOrder) {
     sortConditions[sortBy] = sortOrder;
   }
 
-  const result = await User.find({})
+  // It ensures that if andCondition is empty thant send empty object otherwise it will occurs an error
+  const whereConditions = andCondition.length > 0 ? { $and: andCondition } : {};
+
+  // It queries the User collection, sorts the results based on the sortConditions, skips the specified number of documents, and limits the number of documents to retrieve.
+  const result = await User.find(whereConditions)
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
 
+  // It retrieves the total count of users using the User.countDocuments function.
   const total = await User.countDocuments();
 
+  // It returns a Promise that resolves to a GenericResponseType containing the retrieved users and the pagination metadata.
   return {
     meta: {
       page,
@@ -82,7 +109,22 @@ const getAllUsers = async (
   };
 };
 
+/**
+ * getSingleUser is an asynchronous function that retrieves a single user by their ID.
+ * It accepts the user ID as a parameter.
+ * @param id The ID of the user to retrieve.
+ * @returns A Promise that resolves to the retrieved user or null if not found.
+ */
+const getSingleUser = async (id: string): Promise<UserType | null> => {
+  // Use the User model's findById method to query the database for the user with the specified ID
+  const result = await User.findById(id);
+
+  // Return the result, which can be either the retrieved user or null if not found
+  return result;
+};
+
 export const UserService = {
   createUser,
   getAllUsers,
+  getSingleUser,
 };

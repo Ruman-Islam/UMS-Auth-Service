@@ -1,32 +1,32 @@
 import { Request, Response, NextFunction } from 'express';
-import { AnyZodObject } from 'zod';
+import { AnyZodObject, ZodEffects } from 'zod';
 
 /**
-This code exports a middleware function called 'validateRequest' which takes a Zod schema as input.
-The middleware function is an asynchronous function that receives the request, response, and next function as parameters.
-Inside the middleware function, the incoming request's body, query parameters, URL parameters, and cookies are passed to the Zod schema using the 'parseAsync' method.
-If the validation succeeds, the next function is called to proceed to the next middleware or route handler.
-If the validation fails, the error is passed to the next function, which will handle the error.
-This middleware can be used to validate the request data against a specified Zod schema before processing the request further.
-*/
+ * validateRequest is a middleware function that validates the request data against a provided Zod schema.
+ * It accepts a Zod schema as a parameter and returns an async middleware function.
+ * @param schema The Zod schema or schema effect to validate the request data against.
+ * @returns An async middleware function that validates the request data.
+ */
 const validateRequest =
-  /*  'Zod schema' ==> */
+  (schema: AnyZodObject | ZodEffects<AnyZodObject>) =>
+  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    // Middleware function/handler
 
+    try {
+      // Validate the request data against the provided schema
+      await schema.parseAsync({
+        body: req.body, // Passing for validations if body & body's schema exists
+        query: req.query, // Passing for validations if query & query's schema exists
+        params: req.params, // Passing for validations if params & params's schema exists
+        cookies: req.cookies, // Passing for validations if cookies & cookies's schema exists
+      });
 
-    (schema: AnyZodObject) =>
-    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-      // middleware function/handler
-      try {
-        await schema.parseAsync({
-          body: req.body, // Passing for validations if body & body's schema exists
-          query: req.query, // Passing for validations if query & query's schema exists
-          params: req.params, // Passing for validations if params & params's schema exists
-          cookies: req.cookies, // Passing for validations if cookies & cookies's schema exists
-        });
-        return next();
-      } catch (error) {
-        return next(error);
-      }
-    };
+      // If validation succeeds, proceed to the next middleware or route handler
+      return next();
+    } catch (error) {
+      // If validation fails, pass the error to the error handling middleware
+      return next(error);
+    }
+  };
 
 export default validateRequest;

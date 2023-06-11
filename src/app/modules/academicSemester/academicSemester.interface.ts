@@ -24,7 +24,7 @@ export type AcademicSemesterCodeType = '01' | '02' | '03';
 // Represents the structure of an academic semester
 export type AcademicSemesterType = {
   title: AcademicSemesterTitleType; // Title of the academic semester
-  year: number; // Year of the academic semester
+  year: string; // Year of the academic semester
   code: AcademicSemesterCodeType; // Code of the academic semester
   startMonth: AcademicSemesterMonthType; // Start month of the academic semester
   endMonth: AcademicSemesterMonthType; // End month of the academic semester

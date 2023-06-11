@@ -23,7 +23,7 @@ const academicSemesterSchema = new Schema<AcademicSemesterType>(
       }, // Allow only the predefined academic semester titles,
     },
     year: {
-      type: Number,
+      type: String,
       required: [true, 'semester year is missing!'],
     },
     code: {

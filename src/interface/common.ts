@@ -34,3 +34,7 @@ export type GenericResponseType<T> = {
   };
   data: T;
 };
+
+export type FilterType = {
+  searchTerm?: string;
+};

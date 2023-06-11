@@ -52,3 +52,6 @@ export const academicSemesterTitleCodeMapper: {
   Summer: '02',
   Fall: '03',
 };
+
+// Pre defined searchable fields for academic semester collection
+export const academicSemesterSearchableFields = ['title', 'code', 'year'];

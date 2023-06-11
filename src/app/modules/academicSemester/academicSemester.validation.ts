@@ -13,7 +13,7 @@ const createAcademicSemesterValidationZodSchema = z.object({
     title: z.enum([...academicSemesterTitles] as [string, ...string[]], {
       required_error: 'Title is required', // Error message for missing title
     }),
-    year: z.number({
+    year: z.string({
       required_error: 'Year is required', // Error message for missing year
     }),
     code: z.enum([...academicSemesterCodes] as [string, ...string[]], {
@@ -28,7 +28,49 @@ const createAcademicSemesterValidationZodSchema = z.object({
   }),
 });
 
+// Defining the Zod schema for validating the request's body object when updating an academic semester
+// Ensure: Either give title and code both or give other updated property except these both
+const updateAcademicSemesterValidationZodSchema = z
+  .object({
+    body: z.object({
+      title: z
+        .enum([...academicSemesterTitles] as [string, ...string[]], {
+          required_error: 'Title is required', // Error message for missing title
+        })
+        .optional(),
+      year: z
+        .string({
+          required_error: 'Year is required', // Error message for missing year
+        })
+        .optional(),
+      code: z
+        .enum([...academicSemesterCodes] as [string, ...string[]], {
+          required_error: 'Code is required', // Error message for missing code
+        })
+        .optional(),
+      startMonth: z
+        .enum([...academicSemesterMonths] as [string, ...string[]], {
+          required_error: 'Start month is required', // Error message for missing start month
+        })
+        .optional(),
+      endMonth: z
+        .enum([...academicSemesterMonths] as [string, ...string[]], {
+          required_error: 'End month is required', // Error message for missing end month
+        })
+        .optional(),
+    }),
+  })
+  .refine(
+    data =>
+      (data.body.title && data.body.code) ||
+      (!data.body.title && !data.body.code),
+    {
+      message: 'Either both title and code should be provided or neither',
+    }
+  );
+
 // Export the validation schema as part of the AcademicSemesterValidation object
 export const AcademicSemesterValidation = {
   createAcademicSemesterValidationZodSchema,
+  updateAcademicSemesterValidationZodSchema,
 };

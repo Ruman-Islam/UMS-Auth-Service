@@ -11,7 +11,7 @@ const router = express.Router();
  * and calls the createSemester controller method from AcademicSemesterController.
  */
 router.post(
-  '/create-semester',
+  '/',
   validateRequest(
     AcademicSemesterValidation.createAcademicSemesterValidationZodSchema
   ),
@@ -19,13 +19,26 @@ router.post(
 );
 
 /**
+ * Get a single semester information from academic semester collection
+ */
+router.get('/:id', AcademicSemesterController.getSingleSemester);
+
+/**
+ * Update a single semester information from academic semester collection
+ */
+router.patch(
+  '/:id',
+  validateRequest(
+    AcademicSemesterValidation.updateAcademicSemesterValidationZodSchema
+  ),
+  AcademicSemesterController.updateSemester
+);
+
+/**
  * Route for getting all the academic semester information.
  * It will retrieve all the data by Pagination
  * and calls the getAllSemesters controller method from AcademicSemesterController.
  */
-router.get('/get-all-semesters', AcademicSemesterController.getAllSemesters);
+router.get('/', AcademicSemesterController.getAllSemesters);
 
-/**
- * Export the router for academic semester routes.
- */
 export const AcademicSemesterRoutes = router;
