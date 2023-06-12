@@ -59,6 +59,11 @@
             "date": 1686589203155,
             "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\success\\UMS-2023-12-06-23-success.log",
             "hash": "41701ec375b406e006e75ec882e6ef417acac005dc9e278b4a89e187c792b798"
+        },
+        {
+            "date": 1686592826250,
+            "name": "E:\\Next Level 2\\Mission 3 - Be a NoSQL Backend Brainiac\\UMS\\Backend\\UMS-Auth-Service\\logs\\winston\\success\\UMS-2023-13-06-00-success.log",
+            "hash": "0dbf86a2b6364ca94b3083c3a388c330337fa0aed28617387d74e053fb0f45fe"
         }
     ],
     "hashType": "sha256"

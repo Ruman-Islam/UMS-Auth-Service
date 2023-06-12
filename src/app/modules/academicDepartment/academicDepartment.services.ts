@@ -15,7 +15,9 @@ const createDepartment = async (
   payload: AcademicDepartmentType
 ): Promise<AcademicDepartmentType> => {
   // Create the academic Department in the database using the payload
-  const result = await AcademicDepartment.create(payload);
+  const result = (await AcademicDepartment.create(payload)).populate(
+    'academicFaculty'
+  );
 
   // Return the created academic Department
   return result;
@@ -72,6 +74,7 @@ const getAllDepartment = async (
 
   // Query the database to retrieve academic Department based on the filters, pagination, and sorting
   const result = await AcademicDepartment.find(whereConditions)
+    .populate('academicFaculty')
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
@@ -93,8 +96,10 @@ const getAllDepartment = async (
 const getSingleDepartment = async (
   id: string
 ): Promise<AcademicDepartmentType | null> => {
-  // Query the database to retrieve the academic DegetSingleDepartment by its ID
-  const result = await AcademicDepartment.findById(id);
+  // Query the database to retrieve the academic Department by its ID
+  const result = await AcademicDepartment.findById(id).populate(
+    'academicFaculty'
+  );
 
   // Return the retrieved academic Department, or null if not found
   return result;
@@ -118,7 +123,7 @@ const updateDepartment = async (
       new: true, // Return the updated document
       runValidators: true, // Run validators during the update operation
     }
-  );
+  ).populate('academicFaculty');
 
   // Return the updated academic Department, or null if not found
   return result;
@@ -128,7 +133,9 @@ const deleteDepartment = async (
   id: string
 ): Promise<AcademicDepartmentType | null> => {
   // Query the database to update the academic Department by its ID
-  const result = await AcademicDepartment.findByIdAndDelete(id);
+  const result = await AcademicDepartment.findByIdAndDelete(id).populate(
+    'academicFaculty'
+  );
 
   // Return the updated academic Department, or null if not found
   return result;
