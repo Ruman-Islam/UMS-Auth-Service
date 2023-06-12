@@ -51,7 +51,12 @@ const academicSemesterSchema = new Schema<AcademicSemesterType>(
       }, // Allow only the predefined academic semester months,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
+  }
 );
 
 /**

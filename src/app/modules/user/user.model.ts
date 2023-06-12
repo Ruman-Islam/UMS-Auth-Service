@@ -30,7 +30,12 @@ const userSchema = new Schema<UserType>(
       required: [true, 'password is missing!'],
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
+  }
 );
 
 // Create and export the User model based on the user schema
