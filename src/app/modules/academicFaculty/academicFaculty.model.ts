@@ -6,12 +6,21 @@ import {
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
 
-const academicFacultySchema = new Schema<AcademicFacultyType>({
-  title: {
-    type: String,
-    required: [true, 'faculty title is missing!'],
+const academicFacultySchema = new Schema<AcademicFacultyType>(
+  {
+    title: {
+      type: String,
+      required: [true, 'faculty title is missing!'],
+      unique: true,
+    },
   },
-});
+  {
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
+  }
+);
 
 // Same year and same Faculty validation
 academicFacultySchema.pre('save', async function (next) {

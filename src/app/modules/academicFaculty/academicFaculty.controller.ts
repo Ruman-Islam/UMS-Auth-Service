@@ -26,10 +26,7 @@ const createFaculty: RequestHandler = catchAsync(async (req, res) => {
 });
 
 const getAllFaculties: RequestHandler = catchAsync(async (req, res) => {
-  const filters = pick(req.query, [
-    'searchTerm',
-    ...academicFacultySearchableFields,
-  ]);
+  const filters = pick(req.query, academicFacultySearchableFields);
 
   // To manage pagination fields
   const paginationOptions = pick(req.query, paginationFields);

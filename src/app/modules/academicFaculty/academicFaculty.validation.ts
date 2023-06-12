@@ -10,9 +10,7 @@ const createFacultyZodSchema = z.object({
 
 const updateFacultyZodSchema = z.object({
   body: z.object({
-    title: z.string({
-      required_error: 'Title is required', // Error message for missing title
-    }),
+    title: z.string().optional(),
   }),
 });
 

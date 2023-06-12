@@ -45,10 +45,7 @@ const createSemester: RequestHandler = catchAsync(async (req, res) => {
  * @returns A Promise that resolves to the response.
  */
 const getAllSemesters: RequestHandler = catchAsync(async (req, res) => {
-  const filters = pick(req.query, [
-    'searchTerm',
-    ...academicSemesterSearchableFields,
-  ]);
+  const filters = pick(req.query, academicSemesterSearchableFields);
 
   // To manage pagination fields
   const paginationOptions = pick(req.query, paginationFields);

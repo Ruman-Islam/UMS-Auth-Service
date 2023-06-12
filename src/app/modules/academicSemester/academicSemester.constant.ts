@@ -54,4 +54,9 @@ export const academicSemesterTitleCodeMapper: {
 };
 
 // Pre defined searchable fields for academic semester collection
-export const academicSemesterSearchableFields = ['title', 'code', 'year'];
+export const academicSemesterSearchableFields = [
+  'searchTerm',
+  'title',
+  'code',
+  'year',
+];

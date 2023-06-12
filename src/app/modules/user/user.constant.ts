@@ -1,2 +1,2 @@
 // Pre defined searchable fields for user collection
-export const userSearchableFields = ['id', 'role'];
+export const userSearchableFields = ['searchTerm', 'id', 'role'];
