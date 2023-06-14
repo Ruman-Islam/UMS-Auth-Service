@@ -135,7 +135,7 @@ const updateStudent = async (
   // Query the database to update the academic semester by its ID
   const result = await Student.findOneAndUpdate({ id }, updatedStudentData, {
     new: true, // Return the updated document
-    // runValidators: true, // Run validators during the update operation
+    runValidators: true, // Run validators during the update operation
   });
 
   // Return the updated academic semester, or null if not found
