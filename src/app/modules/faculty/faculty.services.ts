@@ -10,11 +10,6 @@ import { facultySearchableFields } from './faculty.constant';
 import { Faculty } from './faculty.model';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
-//   import { StudentFilterType, StudentType } from './student.interface';
-//   import { studentSearchableFields } from './student.constant';
-//   import { Student } from './student.model';
-//   import ApiError from '../../../errors/ApiError';
-//   import httpStatus from 'http-status';
 
 const getAllFaculties = async (
   filters: FacultyFilterType,
