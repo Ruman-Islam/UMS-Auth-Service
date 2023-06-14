@@ -1,19 +1,21 @@
 import { SortOrder } from 'mongoose';
 import { PaginationHelpers } from '../../../helper/paginationHelper';
 import {
-  FilterType,
   GenericResponseType,
   PaginationOptionType,
 } from '../../../interface/common';
 import { academicDepartmentSearchableFields } from './academicDepartment.constant';
-import { AcademicDepartmentType } from './academicDepartment.interface';
+import {
+  AcademicDepartmentFilterType,
+  AcademicDepartmentType,
+} from './academicDepartment.interface';
 import { AcademicDepartment } from './academicDepartment.model';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
 
 const createDepartment = async (
   payload: AcademicDepartmentType
-): Promise<AcademicDepartmentType> => {
+): Promise<AcademicDepartmentType | null> => {
   // Create the academic Department in the database using the payload
   const result = (await AcademicDepartment.create(payload)).populate(
     'academicFaculty'
@@ -24,7 +26,7 @@ const createDepartment = async (
 };
 
 const getAllDepartment = async (
-  filters: FilterType,
+  filters: AcademicDepartmentFilterType,
   paginationOptions: PaginationOptionType
 ): Promise<GenericResponseType<AcademicDepartmentType[]>> => {
   // Destructure the searchTerm and remaining filters from the filters object
@@ -80,7 +82,7 @@ const getAllDepartment = async (
     .limit(limit);
 
   // Count the total number of academic Department
-  const total = await AcademicDepartment.countDocuments();
+  const total = await AcademicDepartment.countDocuments(whereConditions);
 
   // Construct and return the response object containing the meta and data
   return {

@@ -6,19 +6,8 @@ import sendResponse from '../../../shared/sendResponse';
 import { AcademicSemesterType } from './academicSemester.interface';
 import pick from '../../../shared/pick';
 import { paginationFields } from '../../../constants/pagination';
-import { academicSemesterSearchableFields } from './academicSemester.constant';
+import { academicSemesterFilterableFields } from './academicSemester.constant';
 
-/**
-createSemester is a request handler function that handles to creates a new academic semester using service.
-It extracts the academic semester data from the request body.
-It calls the academicSemesterService.createSemester function to create the semester using the extracted data.
-If the creation is successful, it sends a response with a success status and the created semester data.
-If an error occurs, it forwards the error to the next error handling middleware.
-@param req The Express Request object.
-@param res The Express Response object.
-@param next The next middleware function.
-@returns A Promise that resolves to the response.
-*/
 const createSemester: RequestHandler = catchAsync(async (req, res) => {
   const { ...academicSemesterData } = req.body;
   const result = await AcademicSemesterService.createSemester(
@@ -35,17 +24,8 @@ const createSemester: RequestHandler = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * getAllSemesters is a request handler function that handles the retrieval of all academic semesters.
- * It extracts pagination options from the request query.
- * It calls the AcademicSemesterService.getAllSemesters function to fetch the semesters using the pagination options.
- * If the retrieval is successful, it sends a response with a success status, a message, pagination metadata, and the retrieved semesters.
- * @param req The Express Request object.
- * @param res The Express Response object.
- * @returns A Promise that resolves to the response.
- */
 const getAllSemesters: RequestHandler = catchAsync(async (req, res) => {
-  const filters = pick(req.query, academicSemesterSearchableFields);
+  const filters = pick(req.query, academicSemesterFilterableFields);
 
   // To manage pagination fields
   const paginationOptions = pick(req.query, paginationFields);
@@ -66,13 +46,6 @@ const getAllSemesters: RequestHandler = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * getSingleSemester is a request handler function that retrieves a single academic semester based on the provided ID.
- * It accepts the Express Request and Response objects as parameters.
- * @param req The Express Request object.
- * @param res The Express Response object.
- * @returns A Promise that resolves to the response.
- */
 const getSingleSemester: RequestHandler = catchAsync(async (req, res) => {
   // Extract the semester ID from the request parameters
   const id = req.params.id;
@@ -90,13 +63,6 @@ const getSingleSemester: RequestHandler = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * updateSemester is a request handler function that updates a single academic semester based on the provided ID and data.
- * It accepts the Express Request and Response objects as parameters.
- * @param req The Express Request object.
- * @param res The Express Response object.
- * @returns A Promise that resolves to the response.
- */
 const updateSemester: RequestHandler = catchAsync(async (req, res) => {
   // Retrieving data from request
   const id = req.params.id; // Get the semester ID from the request parameters
@@ -115,13 +81,6 @@ const updateSemester: RequestHandler = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * deleteSemester is a request handler function that delete that academic semester.
- * It accepts the Express Request and Response objects as parameters.
- * @param req The Express Request object.
- * @param res The Express Response object.
- * @returns A Promise that resolves to the response.
- */
 const deleteSemester: RequestHandler = catchAsync(async (req, res) => {
   // Retrieving data from request
   const id = req.params.id; // Get the semester ID from the request parameters

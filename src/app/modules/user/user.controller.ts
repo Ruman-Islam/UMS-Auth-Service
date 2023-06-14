@@ -8,37 +8,21 @@ import pick from '../../../shared/pick';
 import { paginationFields } from '../../../constants/pagination';
 import { userSearchableFields } from './user.constant';
 
-/**
- * createUser is a request handler function that handles the creation of a new user.
- * It calls the UserService.createUser function to create the user using the data from the request body.
- * If the creation is successful, it sends a response with a success status, a message indicating the user was created successfully, and the created user data.
- * @param req The Express Request object.
- * @param res The Express Response object.
- * @returns A Promise that resolves to the response.
- */
-const createUser: RequestHandler = catchAsync(async (req, res) => {
+const createStudent: RequestHandler = catchAsync(async (req, res) => {
+  const { student, ...userData } = req.body;
   // Call the UserService to create the user
-  const result = await UserService.createUser(req.body);
+  const result = await UserService.createStudent(student, userData);
 
   // Dynamic response sender generic function to ensure response format
   return sendResponse<UserType>(res, {
     statusCode: httpStatus.CREATED,
     success: true,
-    message: 'User created successfully',
+    message: 'Student created successfully',
     meta: null,
     data: result,
   });
 });
 
-/**
- * getAllUsers is a request handler function that handles the retrieval of all users.
- * It extracts pagination options from the request query.
- * It calls the UserService.getAllUsers function to fetch the users using the pagination options.
- * If the retrieval is successful, it sends a response with a success status, a message, pagination metadata, and the retrieved users.
- * @param req The Express Request object.
- * @param res The Express Response object.
- * @returns A Promise that resolves to the response.
- */
 const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
   // To manage filter fields
   const filters = pick(req.query, userSearchableFields);
@@ -59,14 +43,6 @@ const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
   });
 });
 
-/**
- * getAllUsers is a request handler function that handles the retrieval of a single user.
- * It calls the UserService.getSingleUser function to fetch the user using the object id.
- * If the retrieval is successful, it sends a response with a success status, a message, pagination metadata, and the retrieved user.
- * @param req The Express Request object.
- * @param res The Express Response object.
- * @returns A Promise that resolves to the response.
- */
 const getSingleUser: RequestHandler = catchAsync(async (req, res) => {
   const id = req.params.id;
 
@@ -84,7 +60,7 @@ const getSingleUser: RequestHandler = catchAsync(async (req, res) => {
 });
 
 export const UserController = {
-  createUser,
+  createStudent,
   getAllUsers,
   getSingleUser,
 };

@@ -1,2 +1,6 @@
-// Pre defined searchable fields for academic faculty collection
-export const academicFacultySearchableFields = ['searchTerm', 'title'];
+export const academicFacultyFilterableFields: string[] = [
+  'searchTerm',
+  'title',
+];
+
+export const academicFacultySearchableFields: string[] = ['title'];

@@ -5,7 +5,7 @@ import { AcademicFacultyType } from './academicFaculty.interface';
 import httpStatus from 'http-status';
 import { AcademicFacultyService } from './academicFaculty.services';
 import pick from '../../../shared/pick';
-import { academicFacultySearchableFields } from './academicFaculty.constant';
+import { academicFacultyFilterableFields } from './academicFaculty.constant';
 import { paginationFields } from '../../../constants/pagination';
 
 const createFaculty: RequestHandler = catchAsync(async (req, res) => {
@@ -26,7 +26,7 @@ const createFaculty: RequestHandler = catchAsync(async (req, res) => {
 });
 
 const getAllFaculties: RequestHandler = catchAsync(async (req, res) => {
-  const filters = pick(req.query, academicFacultySearchableFields);
+  const filters = pick(req.query, academicFacultyFilterableFields);
 
   // To manage pagination fields
   const paginationOptions = pick(req.query, paginationFields);

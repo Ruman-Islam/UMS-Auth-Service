@@ -5,3 +5,7 @@ export type AcademicFacultyType = {
 };
 
 export type AcademicFacultyModel = Model<AcademicFacultyType>;
+
+export type AcademicFacultyFilterType = {
+  searchTerm?: string;
+};

@@ -1,12 +1,14 @@
 import { SortOrder } from 'mongoose';
 import { PaginationHelpers } from '../../../helper/paginationHelper';
 import {
-  FilterType,
   GenericResponseType,
   PaginationOptionType,
 } from '../../../interface/common';
 import { academicFacultySearchableFields } from './academicFaculty.constant';
-import { AcademicFacultyType } from './academicFaculty.interface';
+import {
+  AcademicFacultyFilterType,
+  AcademicFacultyType,
+} from './academicFaculty.interface';
 import { AcademicFaculty } from './academicFaculty.model';
 import ApiError from '../../../errors/ApiError';
 import httpStatus from 'http-status';
@@ -22,7 +24,7 @@ const createFaculty = async (
 };
 
 const getAllFaculties = async (
-  filters: FilterType,
+  filters: AcademicFacultyFilterType,
   paginationOptions: PaginationOptionType
 ): Promise<GenericResponseType<AcademicFacultyType[]>> => {
   // Destructure the searchTerm and remaining filters from the filters object
@@ -77,7 +79,7 @@ const getAllFaculties = async (
     .limit(limit);
 
   // Count the total number of academic Faculty
-  const total = await AcademicFaculty.countDocuments();
+  const total = await AcademicFaculty.countDocuments(whereConditions);
 
   // Construct and return the response object containing the meta and data
   return {

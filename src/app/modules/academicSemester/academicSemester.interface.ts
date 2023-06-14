@@ -32,3 +32,7 @@ export type AcademicSemesterType = {
 
 // Represents the Mongoose model for academic semesters
 export type AcademicSemesterModel = Model<AcademicSemesterType>;
+
+export type AcademicSemesterFilterType = {
+  searchTerm?: string;
+};

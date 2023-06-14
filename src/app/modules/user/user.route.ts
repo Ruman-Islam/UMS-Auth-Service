@@ -4,17 +4,10 @@ import { UserValidation } from './user.validation';
 import validateRequest from '../../middleware/validateRequest';
 const router = express.Router();
 
-/**
-UserRoutes is an Express Router that defines the routes related to user management.
-It maps the '/' route to the POST HTTP method and associates it with the 'createUser' method in the UserController.
-Before invoking the 'createUser' method, the request body is validated using the 'createUserZodSchema' schema from the UserValidation module.
-The 'validateRequest' middleware is used to perform the validation.
-This code ensures that when a POST request is made to '/', the request body is validated according to the specified schema before being handled by the 'createUser' method in the UserController.
-*/
 router.post(
-  '/',
+  '/create-student',
   validateRequest(UserValidation.createUserZodSchema),
-  UserController.createUser
+  UserController.createStudent
 );
 
 /**

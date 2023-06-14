@@ -6,7 +6,7 @@ import httpStatus from 'http-status';
 import { AcademicDepartmentService } from './academicDepartment.services';
 import pick from '../../../shared/pick';
 import { paginationFields } from '../../../constants/pagination';
-import { academicFacultySearchableFields } from '../academicFaculty/academicFaculty.constant';
+import { academicDepartmentFilterableFields } from './academicDepartment.constant';
 
 const createDepartment: RequestHandler = catchAsync(async (req, res) => {
   const { ...academicDepartmentData } = req.body;
@@ -26,7 +26,7 @@ const createDepartment: RequestHandler = catchAsync(async (req, res) => {
 });
 
 const getAllDepartment: RequestHandler = catchAsync(async (req, res) => {
-  const filters = pick(req.query, academicFacultySearchableFields);
+  const filters = pick(req.query, academicDepartmentFilterableFields);
 
   // To manage pagination fields
   const paginationOptions = pick(req.query, paginationFields);

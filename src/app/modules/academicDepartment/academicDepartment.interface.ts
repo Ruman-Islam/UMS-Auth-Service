@@ -6,9 +6,12 @@ export type AcademicDepartmentType = {
   academicFaculty: Types.ObjectId | AcademicFacultyType;
 };
 
-export type AcademicDepartmentModel = Model<AcademicDepartmentType>;
+export type AcademicDepartmentModel = Model<
+  AcademicDepartmentType,
+  Record<string, unknown>
+>;
 
-export type AcademicDepartmentFilterRequest = {
+export type AcademicDepartmentFilterType = {
   searchTerm?: string;
   academicFaculty?: Types.ObjectId;
 };

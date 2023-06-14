@@ -8,8 +8,8 @@ dotenv.config({ path: path.join(process.cwd(), '.env') });
 const config = {
   env: process.env.NODE_ENV, // Environment mode (development, production, etc.)
   port: process.env.PORT, // Port number for the server
-  database_url: process.env.LOCAL_URL, // URL for the database
-  default_user_pass: process.env.DEFAULT_USER_PASS, // Default password for user
+  database_url: process.env.DATABASE_URL, // URL for the database
+  default_student_pass: process.env.DEFAULT_STUDENT_PASS, // Default password for student
 };
 
 export default config;
