@@ -1,11 +1,12 @@
 import { z } from 'zod';
 import { bloodGroup, gender } from '../Student/student.constant';
-import { designation } from '../faculty/faculty.constant';
+import { facultyDesignation } from '../faculty/faculty.constant';
+import { adminDesignation } from '../admin/admin.constant';
 
 // ZOD is an extra layer of validation
 
 // Defining a Zod schema for validating user creation request data
-const createUserZodSchema = z.object({
+const createStudentZodSchema = z.object({
   body: z.object({
     password: z.string().optional(),
     student: z.object({
@@ -138,7 +139,7 @@ const createFacultyZodSchema = z.object({
       permanentAddress: z.string({
         required_error: 'permanent address is required',
       }),
-      designation: z.enum([...designation] as [string, ...string[]], {
+      designation: z.enum([...facultyDesignation] as [string, ...string[]], {
         required_error: 'designation is required',
       }),
       academicDepartment: z.string({
@@ -152,8 +153,61 @@ const createFacultyZodSchema = z.object({
   }),
 });
 
+const createAdminZodSchema = z.object({
+  body: z.object({
+    password: z.string().optional(),
+    admin: z.object({
+      name: z.object({
+        firstName: z.string({
+          required_error: 'first name is required',
+        }),
+        middleName: z.string().optional(),
+        lastName: z.string({
+          required_error: 'last name is required',
+        }),
+      }),
+      dateOfBirth: z.string({
+        required_error: 'date of birth is required',
+      }),
+      gender: z.enum([...gender] as [string, ...string[]], {
+        required_error: 'gender is required',
+      }),
+      bloodGroup: z
+        .enum([...bloodGroup] as [string, ...string[]], {
+          required_error: 'blood group is required',
+        })
+        .optional(),
+      email: z
+        .string({
+          required_error: 'email is required',
+        })
+        .email(),
+      contactNo: z.string({
+        required_error: 'contact is required',
+      }),
+      emergencyContactNo: z.string({
+        required_error: 'emergency contact is required',
+      }),
+      presentAddress: z.string({
+        required_error: 'present address is required',
+      }),
+      permanentAddress: z.string({
+        required_error: 'permanent address is required',
+      }),
+      designation: z.enum([...adminDesignation] as [string, ...string[]], {
+        required_error: 'designation is required',
+      }),
+      managementDepartment: z.string({
+        required_error: 'management department is required',
+      }),
+      profileImage: z.string().optional(),
+    }),
+  }),
+});
+
 // Export the validation schema as part of the UserValidation object
 export const UserValidation = {
-  createUserZodSchema,
+  createStudentZodSchema,
   createFacultyZodSchema,
+  createAdminZodSchema,
 };

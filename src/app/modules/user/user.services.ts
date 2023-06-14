@@ -12,11 +12,17 @@ import { User } from './user.model';
 import { userSearchableFields } from './user.constant';
 import { StudentType } from '../Student/student.interface';
 import { AcademicSemester } from '../academicSemester/academicSemester.model';
-import { generateFacultyId, generateStudentId } from './user.utils';
+import {
+  generateAdminId,
+  generateFacultyId,
+  generateStudentId,
+} from './user.utils';
 import { Student } from '../Student/student.model';
 import httpStatus from 'http-status';
 import { FacultyType } from '../faculty/faculty.interface';
 import { Faculty } from '../faculty/faculty.model';
+import { AdminType } from '../admin/admin.interface';
+import { Admin } from '../admin/admin.model';
 
 const createStudent = async (
   student: StudentType,
@@ -157,6 +163,68 @@ const createFaculty = async (
   return newUserAllData;
 };
 
+const createAdmin = async (
+  admin: AdminType,
+  user: UserType
+): Promise<UserType | null> => {
+  // Default password setting
+  if (!user.password) {
+    user.password = config?.default_admin_pass as string;
+  }
+
+  // setting role
+  user.role = 'admin';
+
+  // Generate Admin id
+  let newUserAllData = null;
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    const id = await generateAdminId();
+    user.id = id;
+    admin.id = id;
+
+    // Now it is an array because of using transaction. transaction returns array
+    const newAdmin = await Admin.create([admin], { session });
+
+    if (!newAdmin.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create admin!');
+    }
+
+    // setting Admin _id into user.Admin
+    user.admin = newAdmin[0]._id;
+
+    const newUser = await User.create([user], { session });
+
+    if (!newUser.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create user!');
+    }
+
+    newUserAllData = newUser[0];
+
+    await session.commitTransaction();
+    await session.endSession();
+  } catch (error) {
+    await session.abortTransaction();
+    throw error;
+  } finally {
+    await session.endSession();
+  }
+
+  if (newUserAllData) {
+    newUserAllData = await User.findOne({ id: newUserAllData.id }).populate({
+      path: 'admin',
+      populate: [
+        {
+          path: 'managementDepartment',
+        },
+      ],
+    });
+  }
+
+  return newUserAllData;
+};
+
 const getAllUsers = async (
   filters: FilterType,
   paginationOptions: PaginationOptionType
@@ -231,6 +299,7 @@ const getSingleUser = async (id: string): Promise<UserType | null> => {
 export const UserService = {
   createStudent,
   createFaculty,
+  createAdmin,
   getAllUsers,
   getSingleUser,
 };

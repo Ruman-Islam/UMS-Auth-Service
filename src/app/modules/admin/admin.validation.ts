@@ -1,16 +1,18 @@
 import { z } from 'zod';
 import { bloodGroup, gender } from '../Student/student.constant';
-import { facultyDesignation } from '../faculty/faculty.constant';
+import { adminDesignation } from '../admin/admin.constant';
 
-const updateFacultyZodSchema = z.object({
+// ZOD is an extra layer of validation
+
+// Defining a Zod schema for validating user creation request data
+
+const updateAdminZodSchema = z.object({
   body: z.object({
-    name: z
-      .object({
-        firstName: z.string().optional(),
-        middleName: z.string().optional(),
-        lastName: z.string().optional(),
-      })
-      .optional(),
+    name: z.object({
+      firstName: z.string().optional(),
+      middleName: z.string().optional(),
+      lastName: z.string().optional(),
+    }),
     dateOfBirth: z.string().optional(),
     gender: z.enum([...gender] as [string, ...string[]]).optional(),
     bloodGroup: z.enum([...bloodGroup] as [string, ...string[]]).optional(),
@@ -20,14 +22,14 @@ const updateFacultyZodSchema = z.object({
     presentAddress: z.string().optional(),
     permanentAddress: z.string().optional(),
     designation: z
-      .enum([...facultyDesignation] as [string, ...string[]])
+      .enum([...adminDesignation] as [string, ...string[]])
       .optional(),
-    academicDepartment: z.string().optional(),
-    academicFaculty: z.string().optional(),
+    managementDepartment: z.string().optional(),
     profileImage: z.string().optional(),
   }),
 });
 
-export const FacultyValidation = {
-  updateFacultyZodSchema,
+// Export the validation schema as part of the UserValidation object
+export const AdminValidation = {
+  updateAdminZodSchema,
 };

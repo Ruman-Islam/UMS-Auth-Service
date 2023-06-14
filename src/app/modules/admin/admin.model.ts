@@ -1,8 +1,8 @@
 import { Schema, model } from 'mongoose';
-import { FacultyModel, FacultyType } from './faculty.interface';
-import { bloodGroup, facultyDesignation, gender } from './faculty.constant';
+import { AdminModel, AdminType } from './admin.interface';
+import { bloodGroup, adminDesignation, gender } from './admin.constant';
 
-export const FacultySchema = new Schema<FacultyType, FacultyModel>(
+const AdminSchema = new Schema<AdminType, AdminModel>(
   {
     id: {
       type: String,
@@ -29,21 +29,6 @@ export const FacultySchema = new Schema<FacultyType, FacultyModel>(
       type: String,
       required: [true, 'date of birth is missing!'],
     },
-    gender: {
-      type: String,
-      required: [true, 'gender is missing!'],
-      enum: {
-        values: gender,
-        message: '{VALUE} is not matched',
-      },
-    },
-    bloodGroup: {
-      type: String,
-      enum: {
-        values: bloodGroup,
-        message: '{VALUE} is not matched',
-      },
-    },
     email: {
       type: String,
       unique: true,
@@ -58,6 +43,14 @@ export const FacultySchema = new Schema<FacultyType, FacultyModel>(
       type: String,
       required: [true, 'emergency contact is missing!'],
     },
+    gender: {
+      type: String,
+      required: [true, 'gender is missing!'],
+      enum: {
+        values: gender,
+        message: '{VALUE} is not matched',
+      },
+    },
     presentAddress: {
       type: String,
       required: [true, 'present address is missing!'],
@@ -66,23 +59,25 @@ export const FacultySchema = new Schema<FacultyType, FacultyModel>(
       type: String,
       required: [true, 'permanent address is missing!'],
     },
+    bloodGroup: {
+      type: String,
+      enum: {
+        values: bloodGroup,
+        message: '{VALUE} is not matched',
+      },
+    },
+    managementDepartment: {
+      type: Schema.Types.ObjectId,
+      ref: 'ManagementDepartment',
+      required: [true, 'management department is missing!'],
+    },
     designation: {
       type: String,
       enum: {
-        values: facultyDesignation,
+        values: adminDesignation,
         message: '{VALUE} is not matched',
       },
       required: [true, 'designation is missing!'],
-    },
-    academicDepartment: {
-      type: Schema.Types.ObjectId,
-      ref: 'AcademicDepartment',
-      required: [true, 'academic department is missing!'],
-    },
-    academicFaculty: {
-      type: Schema.Types.ObjectId,
-      ref: 'AcademicFaculty',
-      required: [true, 'academic faculty is missing!'],
     },
     profileImage: {
       type: String,
@@ -97,7 +92,4 @@ export const FacultySchema = new Schema<FacultyType, FacultyModel>(
   }
 );
 
-export const Faculty = model<FacultyType, FacultyModel>(
-  'Faculty',
-  FacultySchema
-);
+export const Admin = model<AdminType, AdminModel>('Admin', AdminSchema);

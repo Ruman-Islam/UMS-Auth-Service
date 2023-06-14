@@ -11,6 +11,7 @@ const config = {
   database_url: process.env.DATABASE_URL, // URL for the database
   default_student_pass: process.env.DEFAULT_STUDENT_PASS, // Default password for student
   default_faculty_pass: process.env.DEFAULT_FACULTY_PASS, // Default password for faculty
+  default_admin_pass: process.env.DEFAULT_ADMIN_PASS, // Default password for faculty
 };
 
 export default config;

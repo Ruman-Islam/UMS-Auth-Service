@@ -39,6 +39,22 @@ const createFaculty: RequestHandler = catchAsync(async (req, res) => {
   });
 });
 
+const createAdmin: RequestHandler = catchAsync(async (req, res) => {
+  const { admin, ...userData } = req.body;
+
+  // Call the UserService to create the admin
+  const result = await UserService.createAdmin(admin, userData);
+
+  // Dynamic response sender generic function to ensure response format
+  return sendResponse<UserType>(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: 'Admin created successfully',
+    meta: null,
+    data: result,
+  });
+});
+
 const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
   // To manage filter fields
   const filters = pick(req.query, userSearchableFields);
@@ -78,6 +94,7 @@ const getSingleUser: RequestHandler = catchAsync(async (req, res) => {
 export const UserController = {
   createStudent,
   createFaculty,
+  createAdmin,
   getAllUsers,
   getSingleUser,
 };

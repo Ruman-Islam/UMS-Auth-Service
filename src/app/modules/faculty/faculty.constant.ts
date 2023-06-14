@@ -11,7 +11,7 @@ export const bloodGroup: string[] = [
   'O-',
 ];
 
-export const designation: string[] = [
+export const facultyDesignation: string[] = [
   'Professor',
   'Associate Professor',
   'Assistant Professor',
