@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { bloodGroup, gender } from '../Student/student.constant';
+import { designation } from '../faculty/faculty.constant';
 
 // ZOD is an extra layer of validation
 
@@ -96,7 +97,63 @@ const createUserZodSchema = z.object({
   }),
 });
 
+const createFacultyZodSchema = z.object({
+  body: z.object({
+    password: z.string().optional(),
+    faculty: z.object({
+      name: z.object({
+        firstName: z.string({
+          required_error: 'first name is required',
+        }),
+        middleName: z.string().optional(),
+        lastName: z.string({
+          required_error: 'last name is required',
+        }),
+      }),
+      dateOfBirth: z.string({
+        required_error: 'date of birth is required',
+      }),
+      gender: z.enum([...gender] as [string, ...string[]], {
+        required_error: 'gender is required',
+      }),
+      bloodGroup: z
+        .enum([...bloodGroup] as [string, ...string[]], {
+          required_error: 'blood group is required',
+        })
+        .optional(),
+      email: z
+        .string({
+          required_error: 'email is required',
+        })
+        .email(),
+      contactNo: z.string({
+        required_error: 'contact is required',
+      }),
+      emergencyContactNo: z.string({
+        required_error: 'emergency contact is required',
+      }),
+      presentAddress: z.string({
+        required_error: 'present address is required',
+      }),
+      permanentAddress: z.string({
+        required_error: 'permanent address is required',
+      }),
+      designation: z.enum([...designation] as [string, ...string[]], {
+        required_error: 'designation is required',
+      }),
+      academicDepartment: z.string({
+        required_error: 'academic department is required',
+      }),
+      academicFaculty: z.string({
+        required_error: 'academic faculty is required',
+      }),
+      profileImage: z.string().optional(),
+    }),
+  }),
+});
+
 // Export the validation schema as part of the UserValidation object
 export const UserValidation = {
   createUserZodSchema,
+  createFacultyZodSchema,
 };

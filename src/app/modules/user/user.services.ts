@@ -12,9 +12,11 @@ import { User } from './user.model';
 import { userSearchableFields } from './user.constant';
 import { StudentType } from '../Student/student.interface';
 import { AcademicSemester } from '../academicSemester/academicSemester.model';
-import { generateStudentId } from './user.utils';
+import { generateFacultyId, generateStudentId } from './user.utils';
 import { Student } from '../Student/student.model';
 import httpStatus from 'http-status';
+import { FacultyType } from '../faculty/faculty.interface';
+import { Faculty } from '../faculty/faculty.model';
 
 const createStudent = async (
   student: StudentType,
@@ -76,6 +78,72 @@ const createStudent = async (
         {
           path: 'academicSemester',
         },
+        {
+          path: 'academicDepartment',
+        },
+        {
+          path: 'academicFaculty',
+        },
+      ],
+    });
+  }
+
+  return newUserAllData;
+};
+
+const createFaculty = async (
+  faculty: FacultyType,
+  user: UserType
+): Promise<UserType | null> => {
+  // Default password setting
+  if (!user.password) {
+    user.password = config?.default_faculty_pass as string;
+  }
+
+  // setting role
+  user.role = 'faculty';
+
+  // Generate Faculty id
+  let newUserAllData = null;
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    const id = await generateFacultyId();
+    user.id = id;
+    faculty.id = id;
+
+    // Now it is an array because of using transaction. transaction returns array
+    const newFaculty = await Faculty.create([faculty], { session });
+
+    if (!newFaculty.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create faculty');
+    }
+
+    // setting Faculty _id into user.Faculty
+    user.faculty = newFaculty[0]._id;
+
+    const newUser = await User.create([user], { session });
+
+    if (!newUser.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create user!');
+    }
+
+    newUserAllData = newUser[0];
+
+    await session.commitTransaction();
+    await session.endSession();
+  } catch (error) {
+    await session.abortTransaction();
+    throw error;
+  } finally {
+    await session.endSession();
+  }
+
+  // user --> Faculty --> academicDepartment, academicFaculty
+  if (newUserAllData) {
+    newUserAllData = await User.findOne({ id: newUserAllData.id }).populate({
+      path: 'faculty',
+      populate: [
         {
           path: 'academicDepartment',
         },
@@ -162,6 +230,7 @@ const getSingleUser = async (id: string): Promise<UserType | null> => {
 
 export const UserService = {
   createStudent,
+  createFaculty,
   getAllUsers,
   getSingleUser,
 };

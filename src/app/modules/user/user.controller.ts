@@ -23,6 +23,22 @@ const createStudent: RequestHandler = catchAsync(async (req, res) => {
   });
 });
 
+const createFaculty: RequestHandler = catchAsync(async (req, res) => {
+  const { faculty, ...userData } = req.body;
+
+  // Call the UserService to create the faculty
+  const result = await UserService.createFaculty(faculty, userData);
+
+  // Dynamic response sender generic function to ensure response format
+  return sendResponse<UserType>(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: 'Faculty created successfully',
+    meta: null,
+    data: result,
+  });
+});
+
 const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
   // To manage filter fields
   const filters = pick(req.query, userSearchableFields);
@@ -61,6 +77,7 @@ const getSingleUser: RequestHandler = catchAsync(async (req, res) => {
 
 export const UserController = {
   createStudent,
+  createFaculty,
   getAllUsers,
   getSingleUser,
 };

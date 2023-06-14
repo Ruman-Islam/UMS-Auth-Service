@@ -1,5 +1,6 @@
 import { Model, Types } from 'mongoose';
 import { StudentType } from '../Student/student.interface';
+import { FacultyType } from '../faculty/faculty.interface';
 
 // Define the shape of a user
 export type UserType = {
@@ -7,7 +8,7 @@ export type UserType = {
   role: string; // User role
   password?: string; // Optional password
   student?: Types.ObjectId | StudentType; // Ref type in model
-  faculty?: Types.ObjectId /* | FacultyType */; // Ref type in model
+  faculty?: Types.ObjectId | FacultyType; // Ref type in model
   admin?: Types.ObjectId /* | adminType */; // Ref type in model
 };
 
