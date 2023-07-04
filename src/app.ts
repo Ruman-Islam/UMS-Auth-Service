@@ -3,11 +3,13 @@ import express, { Application, Request, Response } from 'express';
 import globalErrorHandler from './app/middleware/globalErrorHandler';
 import routes from './app/routes';
 import httpStatus from 'http-status';
+import cookieParser from 'cookie-parser';
 
 const app: Application = express(); // Create an instance of the Express application
 
 // Application Middleware
 app.use(cors()); // Enable Cross-Origin Resource Sharing
+app.use(cookieParser());
 app.use(express.json()); // Parse JSON request bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request bodies
 

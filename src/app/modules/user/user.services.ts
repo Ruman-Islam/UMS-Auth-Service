@@ -68,7 +68,6 @@ const createStudent = async (
     newUserAllData = newUser[0];
 
     await session.commitTransaction();
-    await session.endSession();
   } catch (error) {
     await session.abortTransaction();
     throw error;

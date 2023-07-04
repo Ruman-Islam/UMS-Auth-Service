@@ -35,6 +35,7 @@ export const adminDesignation: string[] = [
 ];
 
 export const adminSearchableFields: string[] = [
+  'searchTerm',
   'id',
   'email',
   'contactNo',
@@ -45,7 +46,6 @@ export const adminSearchableFields: string[] = [
 ];
 
 export const adminFilterableField: string[] = [
-  'searchTerm',
   'id',
   'bloodGroup',
   'email',
